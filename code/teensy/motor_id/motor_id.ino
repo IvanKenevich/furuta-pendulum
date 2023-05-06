@@ -4,13 +4,15 @@
 #define deg2rad (M_PI / 180.0)
 
 //#define LED_BUILTIN 13
-#define PIN_ENC1_A   2
+#define PIN_ENC1_A   2 // encoder pins for the motor
 #define PIN_ENC1_B   3
-#define PIN_TIMER_1   32
+#define PIN_ENC2_A   2 // encoder pins for the free arm
+#define PIN_ENC2_B   3
+#define PIN_PWM1    29 // PWM pins for motor driver
+#define PIN_PWM2    30 
+#define PIN_TIMER_1   32 // indicator timer pin
 #define PIN_TIMER_2   31
-#define PIN_PWM1    29
-#define PIN_PWM2    30
-#define PIN_SW_1    33
+#define PIN_SW_1    33 // pins connected to switches
 #define PIN_SW_2    39
 #define PIN_SW_3    15
 
