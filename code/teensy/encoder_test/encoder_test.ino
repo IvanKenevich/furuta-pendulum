@@ -4,10 +4,8 @@
 #define deg2rad (M_PI / 180.0)
 
 //#define LED_BUILTIN 13
-#define PIN_ENC1_A   0
-#define PIN_ENC1_B   1
-#define PIN_ENC2_A   2
-#define PIN_ENC2_B   3
+#define PIN_ENC1_A   2
+#define PIN_ENC1_B   3
 #define PIN_TIMER_1   32
 #define PIN_TIMER_2   31
 #define PIN_PWM1    29
