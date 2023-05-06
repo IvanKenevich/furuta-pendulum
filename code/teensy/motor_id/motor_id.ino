@@ -6,8 +6,7 @@
 //#define LED_BUILTIN 13
 #define PIN_ENC1_A   2 // encoder pins for the motor
 #define PIN_ENC1_B   3
-#define PIN_ENC2_A   2 // encoder pins for the free arm
-#define PIN_ENC2_B   3
+
 #define PIN_PWM1    29 // PWM pins for motor driver
 #define PIN_PWM2    30 
 #define PIN_TIMER_1   32 // indicator timer pin
@@ -19,22 +18,22 @@
 #define TIMER_CYCLE_MICROS 1 * 100
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
 IntervalTimer t1;
-const float input_freq = 4, // Hz
-            input_amp  = 5, // V
-            supply_voltage = 12; // V
+
 const int pos_buff_size = 50; // samples
 unsigned long i = 0;
 
-Encoder enc1(PIN_ENC1_A, PIN_ENC1_B),
-        enc2(PIN_ENC2_A, PIN_ENC2_B);
-volatile long enc1_pos_raw, enc2_pos_raw;
-volatile float enc1_pos, enc2_pos, enc2_speed;
-float enc2_pos_buff[pos_buff_size] = {0};
+Encoder enc1(PIN_ENC1_A, PIN_ENC1_B);
+volatile long enc1_pos_raw;
+volatile float enc1_pos, enc1_speed;
+float enc1_pos_buff[pos_buff_size] = {0};
 
 volatile char timer1_pin_state = 0, timer2_pin_state = 0;
 volatile float pwm_out = 0, pwm_out_copy = 0, error = 0, setpoint = 0, integral = 0;
 volatile int motor_enabled = false, integral_enabled = false;
 
+const float input_freq = 4, // Hz
+            input_amp  = 5, // V
+            supply_voltage = 12; // V
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
