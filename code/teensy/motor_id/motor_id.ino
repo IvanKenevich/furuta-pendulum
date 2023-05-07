@@ -3,15 +3,36 @@
 #define rad2deg (180.0 / M_PI)
 #define deg2rad (M_PI / 180.0)
 
-//#define LED_BUILTIN 13
+/*
+  Encoder 1 (motor-mounted) variables
+*/
 #define PIN_ENC1_A   2 // encoder pins for the motor
 #define PIN_ENC1_B   3
+Encoder enc1(PIN_ENC1_A, PIN_ENC1_B);
+volatile long enc1_pos_raw;               // counts read from the encoder
+volatile float enc1_pos, enc1_speed;      // position and speed of the encoder in physical units
+const size_t ENC1_POS_BUFF = 50;          // size of position buffer for velocity estimate
+float enc1_pos_buff[ENC1_POS_BUFF] = {0}; // position buffer for velocity estimate
 
+/*
+  Motor variables
+*/
 #define PIN_PWM1    29 // PWM pins for motor driver
 #define PIN_PWM2    30 
-#define PIN_TIMER_1   32 // indicator timer pin
-#define PIN_TIMER_2   31
-#define PIN_SW_1    33 // pins connected to switches
+volatile float pwm_out = 0, pwm_out_copy = 0;
+
+/*
+  Timing indicator pins
+*/
+#define PIN_TIMER_1   32 // timing indicator pin for isr_t1() function
+#define PIN_TIMER_2   31 // timing indicator pin for loop() function
+volatile char timer1_pin_state = 0, timer2_pin_state = 0;
+
+/*
+  Control switches
+*/
+#define PIN_SW_1    33 // motor enable pin
+volatile int motor_enabled = false;
 #define PIN_SW_2    39
 #define PIN_SW_3    15
 
@@ -19,21 +40,11 @@
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
 IntervalTimer t1;
 
-const int pos_buff_size = 50; // samples
 unsigned long i = 0;
-
-Encoder enc1(PIN_ENC1_A, PIN_ENC1_B);
-volatile long enc1_pos_raw;
-volatile float enc1_pos, enc1_speed;
-float enc1_pos_buff[pos_buff_size] = {0};
-
-volatile char timer1_pin_state = 0, timer2_pin_state = 0;
-volatile float pwm_out = 0, pwm_out_copy = 0, error = 0, setpoint = 0, integral = 0;
-volatile int motor_enabled = false, integral_enabled = false;
-
 const float input_freq = 4, // Hz
             input_amp  = 5, // V
-            supply_voltage = 12; // V
+            supply_voltage = 12, // V
+            setpoint;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -54,26 +65,17 @@ void setup() {
 
 void isr_t1(void) {
   enc1_pos_raw = enc1.read(); // pulses
-  enc2_pos_raw = enc2.read(); 
-  enc1_pos = 360.0 * enc1_pos_raw / 8192.0;  // degrees
-  enc2_pos = 360.0 * enc2_pos_raw / 1632.67;
+  enc1_pos = 360.0 * enc1_pos_raw / 1632.67;  // degrees
 
-  for (int j = pos_buff_size - 1; j > 0; j--) {
-    enc2_pos_buff[j] = enc2_pos_buff[j - 1];
+  // shift over position buffer and add the new measurement
+  for (int j = ENC1_POS_BUFF - 1; j > 0; j--) {
+    enc1_pos_buff[j] = enc1_pos_buff[j - 1];
   }
-  enc2_pos_buff[0] = enc2_pos;
-  enc2_speed = (enc2_pos_buff[0] - enc2_pos_buff[pos_buff_size - 1]) / ((pos_buff_size - 1) * Ts);
-  
+  enc1_pos_buff[0] = enc1_pos;
 
-//  setpoint = 45.0 * sin(input_freq * 2 * M_PI * Ts * i);
-//  error = (setpoint - enc2_pos);
-//  if (integral_enabled) {
-//    integral += error;
-//  }
-//  else {
-//    integral = 0;
-//  }
-//  pwm_out = error * 1.5 + integral * 0.005;
+  // calculate speed as a secant line to position
+  enc1_speed = (enc1_pos_buff[0] - enc1_pos_buff[ENC1_POS_BUFF - 1]) / ((ENC1_POS_BUFF - 1) * Ts);
+  ++i;
 
   setpoint = input_amp * sin(input_freq * 2 * M_PI * Ts * i);
   pwm_out = 100.0 * setpoint / supply_voltage;
@@ -83,7 +85,6 @@ void isr_t1(void) {
   } else {
     write_pwm(0);
   }
-  ++i;
 
   digitalWrite(PIN_TIMER_1, timer1_pin_state ^= 1);
 }
