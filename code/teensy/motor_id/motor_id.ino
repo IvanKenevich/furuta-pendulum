@@ -40,11 +40,12 @@ volatile int motor_enabled = false;
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
 IntervalTimer t1;
 
-unsigned long i = 0;
+elapsedMicros t_us; // teensyduino variable type that increments by itself
 const float input_freq = 4, // Hz
             input_amp  = 5, // V
-            supply_voltage = 12, // V
-            setpoint;
+            supply_voltage = 12; // V
+float setpoint;
+            
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -75,9 +76,8 @@ void isr_t1(void) {
 
   // calculate speed as a secant line to position
   enc1_speed = (enc1_pos_buff[0] - enc1_pos_buff[ENC1_POS_BUFF - 1]) / ((ENC1_POS_BUFF - 1) * Ts);
-  ++i;
 
-  setpoint = input_amp * sin(input_freq * 2 * M_PI * Ts * i);
+  setpoint = input_amp * sin(input_freq * 2 * M_PI * t_us * 1e-6);
   pwm_out = 100.0 * setpoint / supply_voltage;
 
   if (motor_enabled) {
@@ -114,19 +114,13 @@ void loop() {
   Serial.print("\t");
 //  Serial.print(enc2_pos);
 //  Serial.print("\t");
-  Serial.println(enc2_speed);
+  Serial.println(enc1_speed);
 
 
   if (digitalRead(PIN_SW_1) == HIGH) {
     motor_enabled = true;
   } else {
     motor_enabled = false;
-  }
-
-  if (digitalRead(PIN_SW_2) == HIGH) {
-    integral_enabled = true;
-  } else {
-    integral_enabled = false;
   }
   
   delay(20);
