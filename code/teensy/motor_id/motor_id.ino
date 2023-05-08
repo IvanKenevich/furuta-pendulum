@@ -36,13 +36,13 @@ volatile int motor_enabled = false;
 #define PIN_SW_2    39
 #define PIN_SW_3    15
 
-#define TIMER_CYCLE_MICROS 1 * 100
+#define TIMER_CYCLE_MICROS 100
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
 IntervalTimer t1;
 
 elapsedMicros t_us; // teensyduino variable type that increments by itself
-const float input_freq = 4, // Hz
-            input_amp  = 5, // V
+const float input_freq = 8, // Hz
+            input_amp  = 9, // V
             supply_voltage = 12; // V
 float setpoint;
             
@@ -123,6 +123,6 @@ void loop() {
     motor_enabled = false;
   }
   
-  delay(20);
+  delay(5);
   digitalWrite(PIN_TIMER_2, timer2_pin_state ^= 1);
 }
