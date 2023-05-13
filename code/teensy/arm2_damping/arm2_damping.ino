@@ -124,15 +124,8 @@ void write_pwm(float percent) {
 }
 
 void loop() {
-  //  noInterrupts();
-  //  pwm_out_copy = pwm_out;
-  //  interrupts();
-  //
-  //
   Serial.print(t_us);
   Serial.print("\t");
-//  Serial.print(enc2_pos);
-//  Serial.print("\t");
   Serial.println(enc2_pos);
 
 
