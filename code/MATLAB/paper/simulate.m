@@ -41,13 +41,24 @@ f_dtau1 = matlabFunction(vpa(subs(f3)));
 
 clearvars -except A31 A32 A33 A34 B31 B32 A41 A42 A43 A44 B41 B42 Km Lm Rm f_ddt1 f_ddt2 f_dtau1
 
-% build the state space system
+% build the state space system - no motor dynamics, perfect torque source
+% A = [0 0 1 0; ...
+%     0 0 0 1; ...
+%     A31 A32 A33 A34; ...
+%     A41 A42 A43 A44];
+% 
+% B = [0; 0; B31; B41];
+% C = eye(4);
+% D = 0;
+
+% motor dynamics included, but inductance is assumed to be 0 - no observer
+% necessary for current
 A = [0 0 1 0; ...
     0 0 0 1; ...
-    A31 A32 A33 A34; ...
-    A41 A42 A43 A44];
+    A31 A32 (A33 - B31 * (Km/Rm)) A34; ...
+    A41 A42 (A43 - B41 * (Km/Rm)) A44];
 
-B = [0; 0; B31; B41];
+B = [0; 0; (B31 * (Km^2/Rm)); (B41 * (Km^2/Rm))];
 C = eye(4);
 D = 0;
 
@@ -55,10 +66,10 @@ eigs = -5 * [1.1 1.2 1.3 1.4];
 K = place(A, B, eigs);
 
 % simulate nonlinear system (motor dynamics ignored) with a linear controller
-tspan = [0, 4];
-y0 = [0 1.2*pi 0 0];
+tspan = [0, 2];
+y0 = [0 1.1*pi 0 0];
 ref = [0 pi 0 0];
-[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, -K * (y - [0 pi 0 0]')), tspan, y0);
+[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, -K * (y - [y(1) pi 0 0]')), tspan, y0);
 torque = (y - ref) * -K';
 
 subplot(2,2,1)

@@ -1,0 +1,20 @@
+Furuta project ideas
+====================
+
+0. Commit code changes that we made today on the school computer
+
+- Test effects of setting theta1 error to 0 (recovery angle, disturbance rejection, stability)
+
+- -|-| of ignoring inductance (same)
+
+- -|-| of simplifying inertial tensor matrices (principal axes + same inertia in yy and zz)
+
+- State space vs classical
+
+- Non-linear controller (compare performance to linear)
+
+- Investigate parameter optimization via controllability Grammian (specifically, changing arm2 mass)
+
+- Kalman filter vs secant line (different length of secant)
+
+- 
