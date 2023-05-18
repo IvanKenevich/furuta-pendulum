@@ -22,11 +22,11 @@ J1zz = 0.048125e-3;
 J2xx = 0.003293e-3; J2xy = 0; J2xz = -0.005240e-3;
 J2yy = 0.034100e-3; J2yz = 0;
 J2zz = 0.031078e-3;
-b1 = 1e-4; b2 = 2.8e-4; % N-m-s
+b1 = 0.0075423; b2 = 2.8e-4; % N-m-s
 g = 9.81; % m/s^2
-Lm = 0.005; % Henry
-Rm = 7.8; % Ohm
-Km = 0.09; % N-m/A
+Lm = 0.0469406; % Henry
+Rm = 4; % Ohm
+Km = 0.0989468; % N-m/A
 
 cf = up_lin_coeff; % select the linearization about the up position
 cf = double(subs(cf));
@@ -53,33 +53,72 @@ clearvars -except A31 A32 A33 A34 B31 B32 A41 A42 A43 A44 B41 B42 Km Lm Rm f_ddt
 
 % motor dynamics included, but inductance is assumed to be 0 - no observer
 % necessary for current
-A = [0 0 1 0; ...
-    0 0 0 1; ...
-    A31 A32 (A33 - B31 * (Km/Rm)) A34; ...
-    A41 A42 (A43 - B41 * (Km/Rm)) A44];
+% A = [0 0 1 0
+%     0 0 0 1
+%     A31 A32 (A33 - B31 * (Km/Rm)) A34
+%     A41 A42 (A43 - B41 * (Km/Rm)) A44];
+% 
+% B = [0; 0; (B31 * (Km^2/Rm)); (B41 * (Km^2/Rm))];
+% C = eye(4);
+% D = 0;
 
-B = [0; 0; (B31 * (Km^2/Rm)); (B41 * (Km^2/Rm))];
-C = eye(4);
+% motor dynamics included, with inductance
+A = [0 0 1 0 0
+    0 0 0 1 0
+    A31 A32 A33 A34 B31 * Km
+    A41 A42 A43 A44 B41 * Km
+    0 0 (-Km/Lm) 0 (-Rm/Lm)];
+
+B = [0; 0; 0; 0; (1/Lm)];
+C = eye(5);
 D = 0;
 
-eigs = -5 * [1.1 1.2 1.3 1.4];
-K = place(A, B, eigs);
+tr = 0.5;
+PMO = 10;
+
+z=((-log(PMO/100))/(sqrt(log(PMO/100)^(2)+pi^(2))));
+wn=((2.917*(z^(2)-0.142852245458*z+0.342817963661))/(tr));
+
+p1=-z*wn+wn*sqrt(1-z^2)*1i;
+p2=-z*wn-wn*sqrt(1-z^2)*1i;
+p3 = floor(5*real(p1));
+p4 = 1.1*p3;
+p5 = 1.1*p4;
+
+p = [p1 p2 p3 p4 p5];
+K = place(A, B, p);
 
 % simulate nonlinear system (motor dynamics ignored) with a linear controller
-tspan = [0, 2];
-y0 = [0 1.1*pi 0 0];
-ref = [0 pi 0 0];
-[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, -K * (y - [y(1) pi 0 0]')), tspan, y0);
-torque = (y - ref) * -K';
+motor_pars.Km = Km;
+motor_pars.Rm = Rm;
+motor_pars.Lm = Lm;
+motor_pars.Vmax = 12;
 
-subplot(2,2,1)
-plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), grid on
-subplot(2,2,[2,4])
-plot(101.971 * torque, (60/(2*pi))*y(:,3)), title("Motor state"), xlabel("Torque [kgf-mm]"), ylabel("Speed [rpm]"), grid on
-subplot(2,2,3)
-plot(t, torque .* y(:,3)), title("Motor power"), xlabel("Time [s]"), ylabel("Power [Watt]"), grid on
+tspan = [0, 1];
+y0 = [0 deg2rad(165) 0 0 0];
+% ref = [0 pi 0 0];
+[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, - K * (y - [y(1) pi 0 0 y(5)]'), motor_pars), tspan, y0);
+% torque = (y - ref) * -K';
 
-sim('odefun_toruqe_sim');
+for row=1:height(y)
+    yrow = y(row, :);
+    
+    V(row) = - K * (yrow - [yrow(1) pi 0 0 0])';
+    if abs(V(row)) > 12
+        V(row)= sign(V(row)) * 12;
+    end
+end
+
+subplot(2,1,1)
+plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi - 180), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), grid on
+subplot(2,1,2)
+plot(t, y(:,3)*180/pi, t, y(:,4)*180/pi), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [deg/s]"), grid on
+% subplot(2,2,[2,4])
+% plot(101.971 * torque, (60/(2*pi))*y(:,3)), title("Motor state"), xlabel("Torque [kgf-mm]"), ylabel("Speed [rpm]"), grid on
+% subplot(2,2,3)
+% plot(t, torque .* y(:,3)), title("Motor power"), xlabel("Time [s]"), ylabel("Power [Watt]"), grid on
+
+% sim('odefun_toruqe_sim');
 
 % Pololu Items #3204, #4844 (34:1 Metal Gearmotor 25D HP 12V) Performance at 12 V
 

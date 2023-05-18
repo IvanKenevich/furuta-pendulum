@@ -1,8 +1,6 @@
 Furuta project ideas
 ====================
 
-0. Commit code changes that we made today on the school computer
-
 - Test effects of setting theta1 error to 0 (recovery angle, disturbance rejection, stability)
 
 - -|-| of ignoring inductance (same)
@@ -17,4 +15,9 @@ Furuta project ideas
 
 - Kalman filter vs secant line (different length of secant)
 
-- 
+- Investigate more accurate / different ways of measuring motor parameters
+
+- Investigate why current matters for furuta but not RWIP
+
+- Investigate why inductance seems to matter so much (diff between controllable and not)
+	Suggestion: look at the magnitudes of torques/delta Is/whatever that are caused by the current state variable
