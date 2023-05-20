@@ -94,10 +94,10 @@ motor_pars.Rm = Rm;
 motor_pars.Lm = Lm;
 motor_pars.Vmax = 12;
 
-tspan = [0, 1];
+tspan = [0, 5];
 y0 = [0 deg2rad(165) 0 0 0];
 % ref = [0 pi 0 0];
-[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, - K * (y - [y(1) pi 0 0 y(5)]'), motor_pars), tspan, y0);
+[t, y] = ode45(@(t, y) odefun_torque(t, y, f_ddt1, f_ddt2, - K * (y - [y(1) 1.1*pi 0 0 0]'), motor_pars), tspan, y0);
 % torque = (y - ref) * -K';
 
 for row=1:height(y)
@@ -110,9 +110,9 @@ for row=1:height(y)
 end
 
 subplot(2,1,1)
-plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi - 180), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), grid on
+plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), ylim([180 - 360, 180 + 360]), grid on
 subplot(2,1,2)
-plot(t, y(:,3)*180/pi, t, y(:,4)*180/pi), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [deg/s]"), grid on
+plot(t, y(:,3)*180/pi/360, t, y(:,4)*180/pi/360), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [rps]"), grid on
 % subplot(2,2,[2,4])
 % plot(101.971 * torque, (60/(2*pi))*y(:,3)), title("Motor state"), xlabel("Torque [kgf-mm]"), ylabel("Speed [rpm]"), grid on
 % subplot(2,2,3)
