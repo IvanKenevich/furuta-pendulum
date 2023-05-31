@@ -14,19 +14,7 @@ clear; close all; clc;
 % Km = 0.09; % N-m/A
 
 % substitute physical values from the design
-L1 = 0.199; L2 = 0.144; l1 = 0.064888; l2 = 0.020327; % m
-m1 = 48.022393e-3; m2 = 19.588257e-3; % kg
-J1xx = 0.010807e-3; J1xy = -0.000018e-3; J1xz = -0.011989e-3; % kg-m^2
-J1yy = 0.054190e-3; J1yz = 0;
-J1zz = 0.048125e-3;
-J2xx = 0.003293e-3; J2xy = 0; J2xz = -0.005240e-3;
-J2yy = 0.034100e-3; J2yz = 0;
-J2zz = 0.031078e-3;
-b1 = 0.0075423; b2 = 2.8e-4; % N-m-s
-g = 9.81; % m/s^2
-Lm = 0.0469406; % Henry
-Rm = 4; % Ohm
-Km = 0.0989468; % N-m/A
+run("sys_props.m");
 
 cf = up_lin_coeff; % select the linearization about the up position
 cf = double(subs(cf));
