@@ -3,13 +3,13 @@ g = 9.81; % m/s^2
 
 %% Length
 % length of arm1 from motor shaft to pivot of arm2
-L1 = 0.199; % m
+L1 = 0.112; % m
 % length of arm2 from pivot to the tip
 L2 = 0.144; % m
-% distance from motor shaft to CG of arm1
-l1 = 0.064888; % m
-% distance from arm2 pivot to CG of arm2
-l2 = 0.020327; % m
+% distance from motor shaft to CG of arm1 (from CAD)
+l1 = 0.05113268; % m
+% distance from arm2 pivot to CG of arm2 (from CAD)
+l2 = 0.05447391; % m
 
 %% Mass
 % mass of arm1 itself
@@ -37,21 +37,21 @@ v1_shaft_coupler = 0.00000129; % m^3
 m1_bushing = 2.36e-3; % kg
 v1_bushing = 0.00000036; % m^3
 
-% total mass of arm1 at CG
-m1 = 48.022393e-3; % kg
-% total mass of arm2 at CG
-m2 = 19.588257e-3; % kg
+% total mass of arm1 at CG (from CAD)
+m1 = 52.92863e-3; % kg
+% total mass of arm2 at CG (from CAD)
+m2 = 30.38172e-3; % kg
 
 %% Inertia
 % inertia tensor for arm1
-J1xx = 0.010807e-3; J1xy = -0.000018e-3; J1xz = -0.011989e-3; % kg-m^2
-J1yy = 0.054190e-3; J1yz = 0;
-J1zz = 0.048125e-3;
+J1xx = 0.01036427e-3; J1xy = 0.00034451e-3; J1xz = -0.01538809e-3; 
+J1yy = 0.08669345e-3; J1yz = 0.00008695e-3;
+J1zz = 0.08106350e-3; % kg-m^2
 
 % inertia tensor for arm2
-J2xx = 0.003293e-3; J2xy = 0; J2xz = -0.005240e-3;
-J2yy = 0.034100e-3; J2yz = 0;
-J2zz = 0.031078e-3;
+J2xx = 0.00798912e-3; J2xy = 0.00000031e-3; J2xz = -0.01628089e-3;
+J2yy = 0.11481705e-3; J2yz = 0.00000007e-3;
+J2zz = 0.10719887e-3;
 
 %% Friction
 % dynamic friction coefficient of motor
