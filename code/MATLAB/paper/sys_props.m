@@ -57,7 +57,7 @@ J2zz = 0.10719887e-3;
 % dynamic friction coefficient of motor
 b1 = 0.0075423; 
 % dynamic friction coefficient of arm2 pivot
-b2 = 2.8e-4; % N-m-s
+b2 = 9e-5; % N-m-s
 
 %% Electrical
 % motor inductance
