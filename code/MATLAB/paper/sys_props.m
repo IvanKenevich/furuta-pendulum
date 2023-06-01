@@ -35,6 +35,7 @@ m1_shaft_coupler = 10e-3; % kg
 v1_shaft_coupler = 0.00000129; % m^3
 % mass of 2 brass bushings
 m1_bushing = 2.36e-3; % kg
+v1_bushing = 0.00000036; % m^3
 
 % total mass of arm1 at CG
 m1 = 48.022393e-3; % kg
