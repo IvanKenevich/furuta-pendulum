@@ -61,6 +61,12 @@ const float swingup_move_halt_angle = 87 * deg2rad; // [rad] absolute value of a
 const float swingup_move_voltage = 8; // [V] Voltage swingup will use to run the motor
 int stop_swingup = false;
 
+/*
+ * Test square wave parameters
+ */
+const unsigned long square_period = 2.0 * 1e6; // [usec] period of the square input wave
+const float square_magnitude = 4.0; // [V] magnitude of the wave
+
 elapsedMicros t_us; // teensyduino variable type that increments by itself
       
 float setpoint;
@@ -120,15 +126,21 @@ void isr_t1(void) {
 float control() {
   float V = 0;
 
-  if (!stop_swingup) {
-    if (fabs(enc2_pos) < swingup_move_halt_angle) {
-      V = swingup_move_voltage;
-    } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
-      V = 0;
-    } else { // within the recovery window
-      V = 0;
-      stop_swingup = true;
-    }
+//  if (!stop_swingup) {
+//    if (fabs(enc2_pos) < swingup_move_halt_angle) {
+//      V = swingup_move_voltage;
+//    } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
+//      V = 0;
+//    } else { // within the recovery window
+//      V = 0;
+//      stop_swingup = true;
+//    }
+//  } else {
+//    V = 0;
+//  }
+
+  if ( (t_us % square_period) < square_period / 2 ) {
+    V = square_magnitude;
   } else {
     V = 0;
   }
@@ -152,6 +164,12 @@ void write_pwm(float percent) {
 }
 
 void loop() {
+  Serial.print(t_us);
+  Serial.print("\t");
+  Serial.print(motor_control);
+  Serial.print("\t");
+  Serial.print(rad2deg * enc1_pos);
+  Serial.print("\t");
   Serial.println(rad2deg * enc2_pos);
 
 
