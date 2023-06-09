@@ -86,6 +86,9 @@ eq_motion = [el1; el2] + b .* diff(q) + [el3; el4] == Q;
 
 syms I1 I2 positive
 
+I1 = (J1yy + J1zz) / 2;
+I2 = (J2yy + J2zz) / 2;
+
 if simplify_inertia
     eq_motion = subs(eq_motion, {J1xx, J1yy, J1zz}, [0, I1, I1]);
     eq_motion = subs(eq_motion, {J2xx, J2yy, J2zz}, [0, I2, I2]);
