@@ -1,4 +1,4 @@
-function [dydt] = odefun_torque(t, y, f_ddt1, f_ddt2, V, motor_pars)
+function [dydt] = sys_odefun(t, y, f_ddt1, f_ddt2, V, motor_pars)
 %ODEFUN_TORQUE Summary of this function goes here
 %   Detailed explanation goes here
 Km = motor_pars.Km;

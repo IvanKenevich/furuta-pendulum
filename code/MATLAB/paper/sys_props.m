@@ -49,8 +49,8 @@ J1yy = 0.08669345e-3; J1yz = 0.00008695e-3;
 J1zz = 0.08106350e-3; % kg-m^2
 
 % inertia tensor for arm2
-J2xx = 0.00798912e-3; J2xy = 0.00000031e-3; J2xz = -0.01628089e-3;
-J2yy = 0.11481705e-3; J2yz = 0.00000007e-3;
+J2xx = 0.00798912e-3; J2xy = 0; J2xz = -0.01628089e-3; % CAD calculates J2xy = 0.00000031e-3;
+J2yy = 0.11481705e-3; J2yz = 0; % CAD calculates J2yz = 0.00000007e-3;
 J2zz = 0.10719887e-3;
 
 %% Friction
@@ -66,3 +66,5 @@ Lm = 0.0469406; % Henry
 Rm = 4; % Ohm
 % motor back emf (also torque) constant
 Km = 0.0989468; % N-m/A
+% magnitude of maximum voltage the motor will receive
+Vmax = 12; % Volts

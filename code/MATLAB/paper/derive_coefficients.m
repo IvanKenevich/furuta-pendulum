@@ -105,8 +105,7 @@ eq_motion = [em1; em2];
 jac = jacobian([f1;f2], [t1, t2, dt1, dt2, tau1, tau2]);
 up_lin_coeff = subs(jac, {t1, t2, dt1, dt2}, [0 pi 0 0]);
 dn_lin_coeff = subs(jac, {t1, t2, dt1, dt2}, [0 0 0 0]);
-
-f3 = (Km/Lm) * V - (Rm/Lm) * tau1 - (1/Lm) * dt1 ;
+% f3 = (Km/Lm) * V - (Rm/Lm) * tau1 - (1/Lm) * dt1 ;
 
 % % syms I0h I1h I2h real
 % % I1h = I1 + m1*l1^2;
