@@ -21,3 +21,10 @@ Furuta project ideas
 
 - Investigate why inductance seems to matter so much (diff between controllable and not)
 	Suggestion: look at the magnitudes of torques/delta Is/whatever that are caused by the current state variable
+
+- (RWIP) Frequency response of the entire state space system
+  Obtain ss coefficients in the upside down position then flip the signs to predict ss in the upside down orientation
+
+- Model predictive control
+
+- Use optimization and test data to optimize model parameters
