@@ -15,7 +15,7 @@ A_o = [  A,  -B*K
        L*C,  A-B*K-L*C];
 B_o = [B 
        B];
-C_o = [zeros(1,height(A)), C];
+C_o = [zeros(height(C), height(A)), C];
 D_o = 0;
 
 sys_obs = ss(A_o,B_o,C_o,D_o);
