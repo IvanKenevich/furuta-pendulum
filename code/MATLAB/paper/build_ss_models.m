@@ -1,7 +1,7 @@
 clear; close all; clc;
 
 % get the symbolically derived coefficients and functions
-[up_lin_coeff, dn_lin_coeff, f1, f2] = derive_coefficients(true);
+[up_lin_coeff, dn_lin_coeff, f1, f2] = derive_coefficients(false);
 
 % % substitute physical values from the paper
 % L1 = 0.278; L2 = 0.3; l1 = 0.15; l2 = 0.148; % m
@@ -60,6 +60,10 @@ B = [0; 0; 0; 0; (1/Lm)];
 C = eye(5);
 D = 0;
 systems.full = ss(A, B, C, D);
+
+C = eye(4,5); % realistic measurement matrix, we don't measure current
+% C = eye(2,5); % set to this if you wish to observe velocity too
+systems.full_measured = ss(A, B, C, D);
 
 motor_pars.Km = Km;
 motor_pars.Lm = Lm;
