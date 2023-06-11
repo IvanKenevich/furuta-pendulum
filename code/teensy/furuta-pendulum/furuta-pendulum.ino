@@ -62,10 +62,10 @@ const float swingup_move_voltage = 8; // [V] Voltage swingup will use to run the
 int stop_swingup = false;
 
 /*
- * Test square wave parameters
+ * Test square wave parameters`
  */
-const unsigned long square_period = 2.0 * 1e6; // [usec] period of the square input wave
-const float square_magnitude = 8.0; // [V] magnitude of the wave
+const unsigned long square_period = 1.0 * 1e6; // [usec] period of the square input wave
+const float square_magnitude = 6.0; // [V] magnitude of the wave
 
 elapsedMicros t_us; // teensyduino variable type that increments by itself
       

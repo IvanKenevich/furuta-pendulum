@@ -5,11 +5,15 @@ load("../paper/derived_systems.mat")
 %% load and process actual behavior
 % x = readmatrix("dataset1.txt");
 % x = x(474:883, :); % cut out the relevant portion
-x = readmatrix("dataset2.txt");
-x = x(384:681, :); % cut out the relevant portion
+% x = readmatrix("dataset2.txt");
+% x = x(384:681, :); % cut out the relevant portion
+x = readmatrix("dataset3.txt");
+x = x(170:405, :); % cut out the relevant portion
 
 x(:,1) = 1e-6 * x(:,1); % microsecond to second conversion
 x(:,1) = x(:,1) - x(1,1); % remove time offset
+x(:,3) = x(:,3) - x(1,3); % remove arm1 offset
+x(:,4) = x(:,4) - x(1,4); % remove arm1 offset
 
 t = x(:,1);
 V = x(:,2);
