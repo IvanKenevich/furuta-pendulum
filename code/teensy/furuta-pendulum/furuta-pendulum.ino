@@ -65,7 +65,7 @@ int stop_swingup = false;
  * Test square wave parameters
  */
 const unsigned long square_period = 2.0 * 1e6; // [usec] period of the square input wave
-const float square_magnitude = 4.0; // [V] magnitude of the wave
+const float square_magnitude = 8.0; // [V] magnitude of the wave
 
 elapsedMicros t_us; // teensyduino variable type that increments by itself
       

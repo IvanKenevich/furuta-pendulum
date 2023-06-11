@@ -1,9 +1,13 @@
 clear; close all; clc;
+addpath("../paper")
 load("../paper/derived_systems.mat")
 
 %% load and process actual behavior
-x = readmatrix("dataset1.txt");
-x = x(474:883, :); % cut out the relevant portion
+% x = readmatrix("dataset1.txt");
+% x = x(474:883, :); % cut out the relevant portion
+x = readmatrix("dataset2.txt");
+x = x(384:681, :); % cut out the relevant portion
+
 x(:,1) = 1e-6 * x(:,1); % microsecond to second conversion
 x(:,1) = x(:,1) - x(1,1); % remove time offset
 
@@ -12,12 +16,19 @@ V = x(:,2);
 t1 = x(:,3);
 t2 = x(:,4);
 
-% figure
-% hold on
-% plot(t, V / 4 * 100 - 50)
-% plot(t, mod(t1, 360))
-% plot(t, t2)
-% hold off
+ax1 = subplot(3,1,1);
+plot(t1)
+ylabel("Arm 1 [deg]")
+
+ax2 = subplot(3,1,2);
+plot(t2)
+ylabel("Arm 2 [deg]")
+
+ax3 = subplot(3,1,3);
+plot(V)
+ylabel("Input voltage [V]")
+xlabel("Time [s]")
+linkaxes([ax1, ax2, ax3], 'x')
 
 %% simulate
 tspan = [t(1), t(end)]; %t;
@@ -30,6 +41,8 @@ t1_sim = rad2deg(y_sim(:,1));
 t2_sim = rad2deg(y_sim(:,2));
 i_sim = y_sim(:,5);
 
+
+figure
 ax1 = subplot(3,1,1);
 plot(t, t1, t_sim, t1_sim)
 legend(["real", "simulated"]);
