@@ -33,8 +33,8 @@ float enc2_pos_buff[ENC2_POS_BUFF] = {0}; // position buffer for velocity estima
 #define PIN_PWM1    30 // PWM pins for motor driver
 #define PIN_PWM2    29 
 const float motor_supply_voltage = 12; // V
-Matrix<1,1, Array<1,1,volatile float> > u = 0; // V
-Matrix<1,1, Array<1,1,volatile float> > u_m1 = 0; // V
+Matrix<1,1, Array<1,1,volatile float> > u; // V
+Matrix<1,1, Array<1,1,volatile float> > u_m1; // V
 volatile float pwm_out = 0, pwm_out_copy = 0; // % PWM
 
 /*
@@ -59,9 +59,12 @@ IntervalTimer t1;
 /*
  * Swing-up controller parameters
  */
-const float swingup_disable_angle = (180.0 - 25) * deg2rad; // [rad] absolute value of arm2 angle where swingup controller switches off
+const float recovery_angle = 30.0;
+const float swingup_disable_angle = (180.0 - recovery_angle) * deg2rad; // [rad] absolute value of arm2 angle where swingup controller switches off
 const float swingup_move_halt_angle = 87 * deg2rad; // [rad] absolute value of arm2 angle at which swingup will stop arm1 to assist with swingup
-const float swingup_move_voltage = 8; // [V] Voltage swingup will use to run the motor
+const float swingup_move_voltage = -7; // [V] Voltage swingup will use to run the motor
+unsigned long swingup_start_time;
+const unsigned long swingup_attempt_duration = 500; // ms
 int stop_swingup = false;
 
 /*
@@ -71,19 +74,21 @@ Matrix<5,1, Array<5,1,volatile float> > x = {}; //States
 Matrix<5,1, Array<5,1,volatile float> > x_m1; //Previous states
 Matrix<4,1, Array<4,1,volatile float> > y; // Measured states
 Matrix<4,1, Array<4,1,volatile float> > y_m1; // Measured states
+Matrix<5,1, Array<5,1,volatile float> > error = {}; //State Error
+Matrix<5,1, Array<5,1,volatile float> > reference = {0, M_PI, 0, 0, 0}; // Reference
 
 Matrix<1,5> Kd = {-0.0533779, 1.66421, -0.208186, 0.16789, -2.97875};
-Matrix<5,5> A_1 = {-60.226, 1.90569e-05, -0.999009, 0, 0.000121262,
-0, -62.8879, 0, -0.999, 0.000123879,
-0.000135011, -41.1747, -21.9054, 14.9429, 0.240898,
-0.000137924, -124.254, 33.7136, -39.1788, 0.24608,
-0.00108994, -0.034024, 0.421568, -1.74347, 0.978896};
-Matrix<5,1, Array<5,1,volatile float> > B = {0, 0, 0.00252934, 0.00258392, 0.0204193};
-Matrix<5,4> L = {61.226, 0, 1,0,
-0, 63.888, 0, 1,
-0, 41.2113, 22.8871, -14.9435,
-0, 124.374, -33.7323, 40.1777,
-1.64263e-11, 0, -0.419319, 1.74004};
+Matrix<5,5> A_1 = {0.99081, -4.25819e-07, 1.82515e-05, 1.83258e-05, 0.000121262,
+-1.03315e-05, 0.989988, 1.89121e-05, 1.89911e-05, 0.000123879,
+-0.018377, -0.0019144, 1.02737, 0.0355309, 0.240898,
+-0.0187722, -0.00195588, 0.0364882, 1.02794, 0.24608,
+0.00684957, -0.0346973, -0.00684622, -0.0147657, 0.978896};
+Matrix<5,1, Array<5,1,volatile float> > B = {8.5044e-07, 8.68823e-07, 0.00252934, 0.00258392, 0.0204193};
+Matrix<5,4> L = {0.0091896, 1.94827e-05, 0.000972532, -1.85752e-05,
+1.03778e-05, 0.0100725, -2.83276e-05, 0.00098054,
+0.018512, 0.038516, -0.0456531, -0.0361613,
+0.0189101, 0.121594, -0.0551647, -0.0290037,
+-0.00575962, 0.000673367, 0.00909588, 0.0113378};
 
 /*
  * Test square wave parameters`
@@ -108,7 +113,7 @@ void setup() {
 
   Serial.begin(57600);
 
-//  set_initial();
+  set_initial();
   
   t1.priority(255);
   t1.begin(isr_t1, TIMER_CYCLE_MICROS);
@@ -118,11 +123,13 @@ void setup() {
 
 void set_initial() {
   x = {0, 0, 0, 0, 0};
-  x_m1 = {0.1, 0.1, 0.1, 0.1, 0.1};
+  x_m1 = {0, 0, 0, 0, 0};
   y = {0, 0, 0, 0};
   y_m1 = y;
-  u = {0};
-  u_m1 = {0};
+  u(0) = 0;
+  u_m1(0) = 0;
+
+  swingup_start_time = millis();
 }
 
 void isr_t1(void) {
@@ -133,23 +140,33 @@ void isr_t1(void) {
   // store previous values
   y_m1 = y;
   x_m1 = x;
+  x_m1(0) = y(0);
+  x_m1(1) = y(1);
+  x_m1(2) = y(2);
+  x_m1(3) = y(3);
   u_m1 = u;
 
   digitalWrite(PIN_TIMER_1, timer1_pin_state ^= 1);
 }
 
 void control() {
-  if (!stop_swingup) {
-    if (fabs(enc2_pos) < swingup_move_halt_angle) {
-      u(0) = 0; //swingup_move_voltage;
-    } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
+  if (fabs(enc2_pos) < swingup_move_halt_angle) {
+    if (millis() - swingup_start_time < swingup_attempt_duration) {
+      u(0) = swingup_move_voltage;
+    } else {
       u(0) = 0;
-    } else { // within the recovery window
-      estimate();
-      u(0) = 1; //u = - Kd * x;      
+    }
+  } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
+    u(0) = 0;
+  } else if ( ((180.0 - recovery_angle) * deg2rad <= fabs(enc2_pos)) && (fabs(enc2_pos) <= (180.0 + recovery_angle) * deg2rad) ) { // within the recovery window
+    estimate();
+    error = x - reference;
+    u = - Kd * error;
+    if (fabs(u(0)) > motor_supply_voltage) {
+      u(0) = copysign(motor_supply_voltage, u(0));
     }
   } else {
-    u(0) = 0;
+    u(0) = 0; 
   }
 
 //  if ( (t_us % square_period) < square_period / 2 ) {
@@ -185,6 +202,7 @@ void measure() {
   enc1_pos_raw = enc1.read(); // pulses
   enc2_pos_raw = enc2.read();
   enc1_pos = 2 * M_PI * enc1_pos_raw / 1632.67; // radians
+//  enc2_pos = fmod(2 * M_PI * enc2_pos_raw / 8192.0, 2*M_PI);
   enc2_pos = 2 * M_PI * enc2_pos_raw / 8192.0;
 
   // shift over position buffer and add the new measurement
@@ -204,20 +222,23 @@ void measure() {
 
   // put measurements into the vector
   y = {enc1_pos, enc2_pos, enc1_speed, enc2_speed};
+  reference(0) = y(0); // set arm1 reference to its current value
 }
 
 void estimate() {
-//  x = A_1 * x_m1 + B * u + L * y_m1;
   x = A_1 * x_m1 + B * u + L * y_m1;
 }
 
 void loop() {
-  Serial.printf("y = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y(0), y(1), y(2), y(3));
-  Serial.printf("y_m1 = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y_m1(0), y_m1(1), y_m1(2), y_m1(3));
-  Serial.printf("x = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x(0), x(1), x(2), x(3), x(4));
-  Serial.printf("x_m1 = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x_m1(0), x_m1(1), x_m1(2), x_m1(3), x_m1(4));
-  Serial.printf("u = %4.3e\n", u(0));
+//  Serial.printf("y = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y(0), y(1), y(2), y(3));
+//  Serial.printf("y_m1 = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y_m1(0), y_m1(1), y_m1(2), y_m1(3));
+//  Serial.printf("x = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x(0), x(1), x(2), x(3), x(4));
+//  Serial.printf("x_m1 = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x_m1(0), x_m1(1), x_m1(2), x_m1(3), x_m1(4));
+//  Serial.printf("u = %4.3e\n", u(0));
 
+//  Serial.printf("%f\t%f\t%f\t%f\n", -87.0, 87.0, rad2deg * enc2_pos, rad2deg * x(1));
+
+  Serial.printf("%f\t%f\n", u(0), x(4));
 
   if (digitalRead(PIN_SW_1) == HIGH) {
     motor_enabled = true;
