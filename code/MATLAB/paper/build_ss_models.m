@@ -72,5 +72,6 @@ motor_pars.Vmax = Vmax;
 
 sys_odefun = @sys_odefun;
 
-clearvars -except f_ddt1 f_ddt2 systems motor_pars sys_odefun
+clearvars -except systems motor_pars
+% clearvars -except f_ddt1 f_ddt2 systems motor_pars sys_odefun
 save("derived_systems.mat")
