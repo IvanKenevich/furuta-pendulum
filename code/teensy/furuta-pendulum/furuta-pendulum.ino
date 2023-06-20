@@ -229,12 +229,17 @@ void estimate() {
 void loop() {
 //  Serial.printf("y = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y(0), y(1), y(2), y(3));
 //  Serial.printf("y_m1 = {%4.3e, %4.3e, %4.3e, %4.3e}\n", y_m1(0), y_m1(1), y_m1(2), y_m1(3));
-  Serial.printf("x = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x(0), x(1), x(2), x(3), x(4), u(0));
 //  Serial.printf("err = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", error(0), error(1), error(2), error(3), error(4));
 //  Serial.printf("x_m1 = {%4.3e, %4.3e, %4.3e, %4.3e, %4.3e}\n", x_m1(0), x_m1(1), x_m1(2), x_m1(3), x_m1(4));
 //  Serial.printf("u = %4.3e\n", u(0));
 
-//  Serial.printf("%f\t%f\t%f\n", rad2deg * error(0), rad2deg* error(1), u(0));
+  Serial.printf("%4.3e, %4.3e, %4.3e, %4.3e, %4.3e"
+                ",%4.3e, %4.3e, %4.3e, %4.3e"
+                ",%4.3e, ",
+                x(0), x(1), x(2), x(3), x(4),
+                y(0), y(1), y(2), y(3),
+                u(0));
+  Serial.println(t_us);
 
   if (digitalRead(PIN_SW_1) == HIGH) {
     motor_enabled = true;
