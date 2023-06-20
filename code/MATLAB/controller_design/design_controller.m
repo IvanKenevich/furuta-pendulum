@@ -107,6 +107,9 @@ fprintf(['Matrix<5,4> L = {%g, %g, %g, %g,\n' ...
                            L(5, 1), L(5,2), L(5,3), L(5,4) ...
 )
 
+
+save('controller_parameters.mat', 'sys', 'K', 'sys_cl', 'Ts', 'sysD', 'Kd', 'sys_cl_D', 'L', 'sys_obs')
+
 %% functions
 function [out] = control_law(t, y, pars)
     out = - pars.K * (y - [y(1) pi 0 0 0]');
