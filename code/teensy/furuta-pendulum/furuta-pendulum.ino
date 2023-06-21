@@ -32,7 +32,7 @@ float enc2_pos_buff[ENC2_POS_BUFF] = {0}; // position buffer for velocity estima
 */
 #define PIN_PWM1    30 // PWM pins for motor driver
 #define PIN_PWM2    29 
-const float motor_supply_voltage = 12; // V
+const float motor_supply_voltage = 9; // V
 const float motor_minimum_voltage = 2; // V
 Matrix<1,1, Array<1,1,volatile float> > u; // V
 Matrix<1,1, Array<1,1,volatile float> > u_m1; // V
@@ -78,18 +78,18 @@ Matrix<4,1, Array<4,1,volatile float> > y_m1; // Measured states
 Matrix<5,1, Array<5,1,volatile float> > error = {}; //State Error
 Matrix<5,1, Array<5,1,volatile float> > reference = {0, M_PI, 0, 0, 0}; // Reference
 
-Matrix<1,5> Kd = {0, 146.309, -9.34953, 11.7675, 5.96349};
-Matrix<5,5> A_1 = {0.984737, -0.000123578, 2.44495e-05, 6.84481e-06, 0.000113657,
--1.10744e-05, 0.983244, 2.54762e-05, 7.50217e-06, 0.000116109,
--0.0190516, -0.367918, 1.04173, 0.00287943, 0.21828,
--0.0194614, -0.375858, 0.0568023, 0.989061, 0.222974,
-0.00542414, -2.98815, 0.181589, -0.249806, 0.796302};
+Matrix<1,5> Kd = {0, 4.69305, -0.363006, 0.422173, -1.50582};
+Matrix<5,5> A_1 = {0.995554, -2.8643e-06, 1.95692e-05, 1.93677e-05, 0.000120009,
+-9.81809e-06, 0.995158, 2.01147e-05, 1.98954e-05, 0.000122599,
+-0.018152, -0.00946386, 1.03458, 0.0375053, 0.237173,
+-0.0185423, -0.00966827, 0.0394414, 1.03428, 0.242274,
+0.00602226, -0.0966279, -0.00516922, -0.0214958, 0.94882};
 Matrix<5,1, Array<5,1,volatile float> > B = {8.5044e-07, 8.68823e-07, 0.00252934, 0.00258392, 0.0204193};
-Matrix<5,4> L = {0.015263, 1.96236e-05, 0.000974108, -1.6959e-05,
-1.10744e-05, 0.0166913, -2.69495e-05, 0.000981951,
-0.0190516, 0.0386643, -0.0368883, -0.0328491,
-0.0194614, 0.121745, -0.0518583, -0.0200923,
--0.00542414, 0.000571218, 0.00732024, 0.00952212};
+Matrix<5,4> L = {0.00444568, 1.93453e-05, 0.000971346, -1.98334e-05,
+9.81809e-06, 0.00490007, -2.93956e-05, 0.000979415,
+0.018152, 0.0384045, -0.0524682, -0.0387789,
+0.0185423, 0.12148, -0.0577179, -0.0359933,
+-0.00602226, 0.000757082, 0.0105802, 0.0128755};
 
 /*
  * Test square wave parameters`
@@ -151,16 +151,24 @@ void isr_t1(void) {
 }
 
 void control() {
-//  if (fabs(enc2_pos) < swingup_move_halt_angle) {
-//    if (millis() - swingup_start_time < swingup_attempt_duration) {
-//      u(0) = swingup_move_voltage;
-//    } else {
-//      u(0) = 0;
-//    }
-//  } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
-//    u(0) = 0;
-//  } else 
-    if ( ((180.0 - recovery_angle) * deg2rad <= enc2_pos) && (enc2_pos <= (180.0 + recovery_angle) * deg2rad) ) { // within the recovery window
+  if (fabs(enc2_pos) < swingup_move_halt_angle) {
+    if (millis() - swingup_start_time < swingup_attempt_duration) {
+      u(0) = swingup_move_voltage;
+    } else {
+      u(0) = 0;
+    }
+  } else if ( (swingup_move_halt_angle <= fabs(enc2_pos)) && (fabs(enc2_pos) <= swingup_disable_angle) ) {
+    u(0) = 0;
+  } else if ( (90 * deg2rad <= enc2_pos && enc2_pos < (180.0 - recovery_angle) * deg2rad) || ((180.0 + recovery_angle) * deg2rad < enc2_pos && enc2_pos <= 270 * deg2rad ) ) { // between 90 and recovery (on both sides)
+      // attempt to feed better ICs to recovery window
+      x(0) = y(0);
+      x(1) = y(1);
+      x(2) = y(2);
+      x(3) = y(3);
+      
+      u(0) = 0;
+    }
+    else if ( ((180.0 - recovery_angle) * deg2rad <= enc2_pos) && (enc2_pos <= (180.0 + recovery_angle) * deg2rad) ) { // within the recovery window
       estimate();
       error = x - reference;
       u = - Kd * (x - reference);
@@ -224,6 +232,7 @@ void measure() {
 
 void estimate() {
   x = A_1 * x_m1 + L * y_m1;
+  x(4) = u(0) / 4.0;
 }
 
 void loop() {
@@ -247,6 +256,6 @@ void loop() {
     motor_enabled = false;
   }
   
-  delay(20);
+  delay(10);
   digitalWrite(PIN_TIMER_2, timer2_pin_state ^= 1);
 }
