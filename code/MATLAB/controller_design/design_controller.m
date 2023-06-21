@@ -5,8 +5,8 @@ sys = systems.full_measured;
 
 %% design gain matrix
 Ts = 1e-3;
-tr = 0.3;
-PMO = 10;
+tr = 0.8;
+PMO = 15;
 
 z=((-log(PMO/100))/(sqrt(log(PMO/100)^(2)+pi^(2))));
 wn=((2.917*(z^(2)-0.142852245458*z+0.342817963661))/(tr));

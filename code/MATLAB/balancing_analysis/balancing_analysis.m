@@ -3,8 +3,9 @@ load("../paper/derived_systems.mat")
 
 %% load and process actual behavior
 % x = readmatrix("dataset1.txt"); x = x(200:250, :); % vanilla, slow print sampling
-x = readmatrix("dataset2.txt"); x = x(865:900, :); % vanilla, faster print sampling
-x = readmatrix("dataset3.txt"); x = x(:, :); % better ICs, faster print sampling
+% x = readmatrix("dataset2.txt"); x = x(865:900, :); % vanilla, faster print sampling
+% x = readmatrix("dataset3.txt"); x = x(:, :); % better ICs
+x = readmatrix("dataset4.txt"); x = x(:, :); % better ICs, I=V/R
 
 x(:,11) = x(:,11) - x(1,11); % remove time offset
 x(:,11) = 1e-6 * x(:,11); % microsecond to second conversion
