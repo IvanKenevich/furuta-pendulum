@@ -30,8 +30,8 @@ float enc2_pos_buff[ENC2_POS_BUFF] = {0}; // position buffer for velocity estima
 /*
   Motor variables
 */
-#define PIN_PWM1    30 // PWM pins for motor driver
-#define PIN_PWM2    29 
+#define PIN_PWM1    35 // PWM pins for motor driver
+#define PIN_PWM2    36 
 const float motor_supply_voltage = 9; // V
 const float motor_minimum_voltage = 2; // V
 Matrix<1,1, Array<1,1,volatile float> > u; // V
@@ -48,10 +48,12 @@ volatile char timer1_pin_state = 0, timer2_pin_state = 0;
 /*
   Control switches
 */
-#define PIN_SW_1    33 // motor enable pin
+#define PIN_SW_1    18
+#define PIN_SW_2    13
+#define PIN_SW_3    37
+
+#define PIN_MOTOR_ENBL PIN_SW_1
 volatile int motor_enabled = false;
-#define PIN_SW_2    39 // swingup start pin
-#define PIN_SW_3    15
 
 #define TIMER_CYCLE_MICROS 1000
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
@@ -108,9 +110,10 @@ void setup() {
 
   pinMode(PIN_TIMER_1, OUTPUT);
   pinMode(PIN_TIMER_2, OUTPUT);
-  pinMode(PIN_SW_1, INPUT);
-  pinMode(PIN_SW_2, INPUT);
-  pinMode(PIN_SW_3, INPUT);
+  
+  pinMode(PIN_SW_1, INPUT_PULLUP);
+  pinMode(PIN_SW_2, INPUT_PULLUP);
+  pinMode(PIN_SW_3, INPUT_PULLUP);
 
   Serial.begin(57600);
 
@@ -258,4 +261,15 @@ void loop() {
   
   delay(10);
   digitalWrite(PIN_TIMER_2, timer2_pin_state ^= 1);
+}
+
+float sin_source(float amp, float freq_hz) {
+  float freq_rad = freq_hz * 2 * M_PI;
+  return amp * sin(freq_rad * (t_us * 1e-6));
+}
+
+float square_source(float amp, float freq_hz) {
+  float period = 1 / freq_hz;
+  float modval = fmod((t_us * 1e-6), period);
+  return (modval > (period / 2)) ? amp : -amp;
 }
