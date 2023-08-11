@@ -1,6 +1,7 @@
 #include <Encoder.h>
 #include <BasicLinearAlgebra.h>
 using namespace BLA;
+#define LED_PIN 23
 
 #define rad2deg (180.0 / M_PI)
 #define deg2rad (M_PI / 180.0)
@@ -110,6 +111,7 @@ void setup() {
 
   pinMode(PIN_TIMER_1, OUTPUT);
   pinMode(PIN_TIMER_2, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   
   pinMode(PIN_SW_1, INPUT_PULLUP);
   pinMode(PIN_SW_2, INPUT_PULLUP);
@@ -252,6 +254,8 @@ void loop() {
                 y(0), y(1), y(2), y(3),
                 u(0));
   Serial.println(t_us);
+
+  digitalWrite(LED_PIN, square_source(1, 2) > 0 ? HIGH : LOW);
 
   if (digitalRead(PIN_SW_1) == HIGH) {
     motor_enabled = true;

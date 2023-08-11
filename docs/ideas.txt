@@ -28,3 +28,8 @@ Furuta project ideas
 - Model predictive control
 
 - Use optimization and test data to optimize model parameters
+
+- Learn how to model nonlinearities (backlash, friction)
+
+- Dual motor system (one with high torque and backlash, other with low torque no backlash, have benefits of both)
+  (MIMO or logical switch to choose which motor to use and how much)
