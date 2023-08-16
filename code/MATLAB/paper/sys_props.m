@@ -54,17 +54,29 @@ J2yy = 0.11481705e-3; J2yz = 0; % CAD calculates J2yz = 0.00000007e-3;
 J2zz = 0.10719887e-3;
 
 %% Friction
-% dynamic friction coefficient of motor
-b1 = 0.0075423; 
+% dynamic friction coefficient of pololu-25d-4844 motor (Ivan)
+% b1 = 0.0075423; 
+% dynamic friction coefficient of amazon motor (Jacob RWIP)
+b1 = 0.001535; 
+
 % dynamic friction coefficient of arm2 pivot
 b2 = 9e-5; % N-m-s
 
 %% Electrical
+%{
+% pololu-25d-4844 motor (Ivan)
 % motor inductance
 Lm = 0.0469406; % Henry
 % motor resistance
 Rm = 4; % Ohm
 % motor back emf (also torque) constant
 Km = 0.0989468; % N-m/A
+%}
+
+% amazon motor (Jacob RWIP)
+Km = 0.0794447; %%% LOOK AT ME, MATLAB CAME UP WITH SLIGHTLY DIFFERENT NUMBERS THAN THESE, GO TO MOTORCONSTANTSCALC.M and SOLVE THOSE EQUATIONS WITH YOUR CALCULATOR TO CONFIRM
+Lm = 0.5728439;
+Rm = 9;
+
 % magnitude of maximum voltage the motor will receive
 Vmax = 12; % Volts

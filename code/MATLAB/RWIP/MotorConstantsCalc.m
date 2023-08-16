@@ -8,7 +8,7 @@ I = 2.620154095000000e-04; % [m2*kg]
 R = 9; % Ohm
 
 syms L Kt Ke b
-
+assume([L, Kt, Ke, b], 'real')
 
 e1 = I * L / Kt == (1 / 529.3);
 e2 = (b * L + I * R) / Kt == (21.57 / 529.3);
