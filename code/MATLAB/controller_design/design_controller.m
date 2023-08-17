@@ -5,8 +5,8 @@ sys = systems.full_measured;
 
 %% design gain matrix
 Ts = 1e-3;
-tr = 0.8;
-PMO = 15;
+tr = 0.3;
+PMO = 20;
 
 z=((-log(PMO/100))/(sqrt(log(PMO/100)^(2)+pi^(2))));
 wn=((2.917*(z^(2)-0.142852245458*z+0.342817963661))/(tr));
@@ -19,7 +19,7 @@ p5 = 1.1*p4;
 
 p = [p1 p2 p3 p4 p5];
 K = place(sys.A, sys.B, p);
-K(1) = 0;
+% K(1) = 0;
 
 sys_cl = sys;
 sys_cl.A = sys.A - sys.B * K;
@@ -28,7 +28,7 @@ sys_cl.A = sys.A - sys.B * K;
 sysD = c2d(sys,Ts);
 pd = [exp(p(1)*Ts) exp(p(2)*Ts) exp(p(3)*Ts) exp(p(4)*Ts) exp(p(5)*Ts)];
 Kd = place(sysD.A,sysD.B,pd);
-Kd(1) = 0;
+% Kd(1) = 0;
 
 sys_cl_D = sysD;
 sys_cl_D.A = sysD.A - sysD.B * Kd;
@@ -55,7 +55,7 @@ hold off
 
 %% simulate nonlinear system with a linear controller
 tspan = [0, 5];
-y0 = [0 deg2rad(165) 0 0 0];
+y0 = [0 deg2rad(175) 0 0 0];
 control_pars.K = K;
 [t, y] = ode45(@(t, y) sys_odefun(t, y, f_ddt1, f_ddt2, control_law(t, y, control_pars), motor_pars), tspan, y0);
 % torque = (y - ref) * -K';
