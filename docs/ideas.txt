@@ -1,35 +1,36 @@
 Furuta project ideas
 ====================
 
-- Test effects of setting theta1 error to 0 (recovery angle, disturbance rejection, stability)
-
-- -|-| of ignoring inductance (same)
-
-- -|-| of simplifying inertial tensor matrices (principal axes + same inertia in yy and zz)
-
+control algos
+-------------
 - State space vs classical
-
+- Model predictive control
 - Non-linear controller (compare performance to linear)
 
-- Investigate parameter optimization via controllability Grammian (specifically, changing arm2 mass)
-
+estimators
+----------
 - Kalman filter vs secant line (different length of secant)
-
-- Investigate more accurate / different ways of measuring motor parameters
-
+- Current estimation sucks (typo? try Kalman?)
 - Investigate why current matters for furuta but not RWIP
-
 - Investigate why inductance seems to matter so much (diff between controllable and not)
 	Suggestion: look at the magnitudes of torques/delta Is/whatever that are caused by the current state variable
 
-- (RWIP) Frequency response of the entire state space system
-  Obtain ss coefficients in the upside down position then flip the signs to predict ss in the upside down orientation
+tuning
+------
+- Test effects of setting theta1 error to 0 (recovery angle, disturbance rejection, stability)
+- Test effects of ignoring inductance (same)
+- Test effects of simplifying inertial tensor matrices (principal axes + same inertia in yy and zz)
+- Investigate parameter optimization via controllability Grammian (specifically, changing arm2 mass)
 
-- Model predictive control
-
-- Use optimization and test data to optimize model parameters
-
-- Learn how to model nonlinearities (backlash, friction)
-
+mechanical
+----------
 - Dual motor system (one with high torque and backlash, other with low torque no backlash, have benefits of both)
   (MIMO or logical switch to choose which motor to use and how much)
+
+sys id
+------
+- Investigate more accurate / different ways of measuring motor parameters
+- (RWIP) Frequency response of the entire state space system
+  Obtain ss coefficients in the upside down position then flip the signs to predict ss in the upside down orientation
+- Use optimization and test data to optimize model parameters
+- Learn how to model nonlinearities (backlash, friction)
