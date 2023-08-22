@@ -33,6 +33,7 @@ float enc2_pos_buff[ENC2_POS_BUFF] = {0}; // position buffer for velocity estima
 */
 #define PIN_PWM1    35 // PWM pins for motor driver
 #define PIN_PWM2    36 
+volatile int motor_enabled = false;
 const float motor_supply_voltage = 12; // V
 const float motor_minimum_voltage = 0; // V
 const float Rm = 9.0; // Ohm - motor resistance
@@ -51,11 +52,11 @@ volatile char timer1_pin_state = 0, timer2_pin_state = 0;
   Control switches
 */
 #define PIN_SW_1    18
-#define PIN_SW_2    13
+#define PIN_SW_2    22
 #define PIN_SW_3    37
 
 #define PIN_MOTOR_ENBL PIN_SW_1
-volatile int motor_enabled = false;
+#define PIN_SWINGUP_ENBL PIN_SW_2
 
 #define TIMER_CYCLE_MICROS 1000
 const float Ts = 1e-6 * TIMER_CYCLE_MICROS;
@@ -64,13 +65,21 @@ IntervalTimer t1;
 /*
  * Swing-up controller parameters
  */
+enum state_enum {INIT, WAIT, MRIGHT, STOP, MLEFT, BALANCE, ERR} state = INIT;
+volatile int swingup_triggered = false;
 const float recovery_angle = 45;
 const float swingup_disable_angle = (180.0 - recovery_angle) * deg2rad; // [rad] absolute value of arm2 angle where swingup controller switches off
+const float balancing_angle_low = (180.0 - recovery_angle) * deg2rad;
+const float balancing_angle_high = (180.0 + recovery_angle) * deg2rad;
+const float swingup_trigger_low = 20.0 * deg2rad;
+const float swingup_trigger_high = 340.0 * deg2rad;
 const float swingup_move_halt_angle = 87 * deg2rad; // [rad] absolute value of arm2 angle at which swingup will stop arm1 to assist with swingup
+const float swingup_reverse_angle = 95 * deg2rad;
 const float swingup_move_voltage = - motor_supply_voltage * 0.7; // [V] Voltage swingup will use to run the motor
+const float swingup_reverse_move_voltage = 5.0; // [V]
+const float swingup_restart_speed = M_PI / 4; // [rad/s] absolute speed below which arm2 must be moving to restart swingup
 unsigned long swingup_start_time;
 const unsigned long swingup_attempt_duration = 750; // ms
-int stop_swingup = false;
 int swingup_state = 0;
 
 /*
@@ -136,6 +145,7 @@ void set_initial() {
   u(0) = 0;
   u_m1(0) = 0;
 
+  state = WAIT;
   swingup_start_time = millis();
 }
 
@@ -157,55 +167,82 @@ void isr_t1(void) {
 }
 
 void control() {
-  if (fabs(enc2_pos) < swingup_move_halt_angle) {
-    if (millis() - swingup_start_time < swingup_attempt_duration) {
-      swingup_state = 1;
-      u(0) = swingup_move_voltage;
-    } 
-    else {
+  switch (state) {
+    case INIT:
       u(0) = 0;
-      swingup_state = 10;
-    }
-  } 
-  else if ( (fabs(enc2_pos) >= swingup_move_halt_angle) && (fabs(enc2_pos) < 95 * deg2rad)) {
-    swingup_state = 2;
-    u(0) = 0; 
-  } 
-  else if ( fabs((enc2_pos) >= 95 * deg2rad) && (fabs(enc2_pos) <= swingup_disable_angle)){
-    swingup_state = 3;
-    x(0) = y(0);
-    x(1) = y(1);
-    x(2) = y(2);
-    x(3) = y(3);
+      state = ERR; // we should've left this state back in setup()
+      break;
     
-    u(0) = 5;
-
-    reference(0) = y(0);
-  }
-//  else if ( (90 * deg2rad <= enc2_pos && enc2_pos < (180.0 - recovery_angle) * deg2rad) || ((180.0 + recovery_angle) * deg2rad < enc2_pos && enc2_pos <= 270 * deg2rad ) ) { // between 90 and recovery (on both sides)
-//    // attempt to feed better ICs to recovery window
-//    x(0) = y(0);
-//    x(1) = y(1);
-//    x(2) = y(2);
-//    x(3) = y(3);
-//    
-//    u(0) = 0;
-//  }
-  else if ( ((180.0 - recovery_angle) * deg2rad <= enc2_pos) && (enc2_pos <= (180.0 + recovery_angle) * deg2rad) ) { // within the recovery window
-    swingup_state = 0;
-    estimate();
-    error = x - reference;
-    u = - Kd * (x - reference);
-    if (fabs(u(0)) > motor_supply_voltage) {
-      u(0) = copysign(motor_supply_voltage, u(0));
-    } 
-    else if (fabs(u(0)) < motor_minimum_voltage) {
+    case WAIT:
       u(0) = 0;
-    }
-  } 
-  else {
-    swingup_state = -1;
-    u(0) = 0;
+      
+      if ( swingup_triggered && ((enc2_pos < swingup_trigger_low) || (enc2_pos > swingup_trigger_high)) \
+            && (fabs(enc2_speed) < swingup_restart_speed) ) {
+        state = MRIGHT;
+        swingup_start_time = millis();
+      }
+      break;
+
+    case MRIGHT:
+      u(0) = swingup_move_voltage;
+      
+      if (millis() - swingup_start_time > swingup_attempt_duration) {
+        state = WAIT; // swingup timeout
+      } else if ( (swingup_move_halt_angle <= enc2_pos) && (enc2_pos <= swingup_reverse_angle) ) {
+        state = STOP; // stop moving
+      }
+      break;
+
+    case STOP:
+      u(0) = 0;
+      
+      if (enc2_pos < swingup_move_halt_angle) {
+        state = WAIT; // we failed to swing up
+      } else if ( (swingup_reverse_angle <= enc2_pos) && (enc2_pos <= balancing_angle_low) ) {
+        state = MLEFT; // start moving the other direction
+      }
+      break;
+
+    case MLEFT:
+      u(0) = swingup_reverse_move_voltage;
+      
+      if (enc2_pos < swingup_reverse_angle) {
+        state = WAIT; // we failed to swing up
+      } else if ( (balancing_angle_low <= enc2_pos) && (enc2_pos <= balancing_angle_high) ) {
+        state = BALANCE; // start balancing
+        x(0) = y(0);
+        x(1) = y(1);
+        x(2) = y(2);
+        x(3) = y(3);
+        reference(0) = y(0);
+      }
+      break;
+
+    case BALANCE:
+      estimate();
+      error = x - reference;
+      u = - Kd * (x - reference);
+      if (fabs(u(0)) > motor_supply_voltage) {
+        u(0) = copysign(motor_supply_voltage, u(0));
+      } 
+      else if (fabs(u(0)) < motor_minimum_voltage) {
+        u(0) = 0;
+      }
+
+      /*if (stop_balancing) {
+        state = WAIT; // stop balancing request
+      } else*/ if ( (enc2_pos < balancing_angle_low) || (enc2_pos > balancing_angle_high) ) {
+        state = WAIT; // we lost balance
+      }
+      break;
+
+    case ERR:
+      u(0) = 0;
+      break;
+
+    default:
+      state = ERR; // you forgot to implement a state
+      break;
   }
 
   pwm_out = 100.0 * u(0) / motor_supply_voltage;
@@ -236,8 +273,8 @@ void measure() {
   enc2_pos_raw = enc2.read();
 //  enc1_pos = 2 * M_PI * enc1_pos_raw / 1632.67; // radians - Ivan's motor
   enc1_pos = 2 * M_PI * enc1_pos_raw / (48 * 10) * 1.0784; // radians - Jacob's motor
-//  enc2_pos = fmod(2 * M_PI * enc2_pos_raw / 8192.0, 2*M_PI);
   enc2_pos = 2 * M_PI * enc2_pos_raw / 8192.0;
+  enc2_pos = f_fmod(enc2_pos, 2 * M_PI); // modulo with floored division
 
   // shift over position buffer and add the new measurement
   for (int j = ENC1_POS_BUFF - 1; j > 0; j--) {
@@ -278,14 +315,18 @@ void loop() {
 //                u(0));
 //  Serial.println(t_us);
 
-  Serial.printf("% 4.3e, %d\n", y(1), swingup_state);
-
   digitalWrite(LED_PIN, square_source(1, 2) > 0 ? HIGH : LOW);
 
-  if (digitalRead(PIN_SW_1) == HIGH) {
+  if (digitalRead(PIN_MOTOR_ENBL) == HIGH) {
     motor_enabled = true;
   } else {
     motor_enabled = false;
+  }
+
+  if (digitalRead(PIN_SWINGUP_ENBL) == HIGH) {
+    swingup_triggered = true;
+  } else {
+    swingup_triggered = false;
   }
   
   delay(10);
@@ -301,4 +342,13 @@ float square_source(float amp, float freq_hz) {
   float period = 1 / freq_hz;
   float modval = fmod((t_us * 1e-6), period);
   return (modval > (period / 2)) ? amp : -amp;
+}
+
+/*
+ * Floored division modulo. C uses truncated divisin modulo by default.
+ * Background: https://en.wikipedia.org/wiki/Modulo
+ * Source of implementation: https://www.alecjacobson.com/weblog/?p=1140
+ */
+float f_fmod(float a, float base) {
+  return fmod(fmod(a, base) + base, base);
 }
