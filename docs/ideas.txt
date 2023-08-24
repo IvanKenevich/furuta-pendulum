@@ -3,23 +3,21 @@ Furuta project ideas
 
 control algos
 -------------
-- State space vs classical
-- State space with integrator
+- *** State space vs classical
+- *** State space with integrator
 - Model predictive control
 - Non-linear controller (compare performance to linear)
 
 estimators
 ----------
-- Kalman filter vs secant line (different length of secant)
-- Current estimation sucks (typo? try Kalman?)
-- Investigate why current matters for furuta but not RWIP
-- Investigate why inductance seems to matter so much (diff between controllable and not)
-	Suggestion: look at the magnitudes of torques/delta Is/whatever that are caused by the current state variable
+- Kalman filter vs secant line for speed
+- different length of secant line for speed est (define desired speed resolution (based on max expected speed) -> derive window size from that)
+- *** Current estimation sucks (observer math typo? try Kalman?)
+- * Investigate why current matters for furuta but not RWIP (look at the magnitudes of torques/delta Is/whatever that are caused by the current state variable)
+- ** Come up with an objective numeric performance metric and use it throughout
 
 tuning
 ------
-- Test effects of setting theta1 error to 0 (recovery angle, disturbance rejection, stability)
-- Test effects of ignoring inductance (same)
 - Test effects of simplifying inertial tensor matrices (principal axes + same inertia in yy and zz)
 - Investigate parameter optimization via controllability Grammian (specifically, changing arm2 mass)
 
@@ -27,13 +25,12 @@ mechanical
 ----------
 - Dual motor system (one with high torque and backlash, other with low torque no backlash, have benefits of both)
   (MIMO or logical switch to choose which motor to use and how much)
-- Better bearing for arm2
-- More rigid mounting to shaft for arm2
+- *** Better bearing for arm2 and arm2 is shaft
 
 sys id
 ------
-- Investigate more accurate / different ways of measuring motor parameters
-- (RWIP) Frequency response of the entire state space system
-  Obtain ss coefficients in the upside down position then flip the signs to predict ss in the upside down orientation
+- Investigate more accurate / different ways of measuring motor parameters (measure each par manually and compare to freq response solved versions)
+	- ask on stack exchange: does the motor have the same friction coeffficent when power or unpowered
+- Obtain ss coefficients in the upside down position then flip the signs to predict ss in the upside down orientation
 - Use optimization and test data to optimize model parameters
-- Learn how to model nonlinearities (backlash, friction)
+- ** Learn how to model nonlinearities (backlash, stiction)

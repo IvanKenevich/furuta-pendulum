@@ -221,7 +221,7 @@ void control() {
     case BALANCE:
       estimate();
       error = x - reference;
-      u = - Kd * (x - reference);
+      u = - Kd * error;
       if (fabs(u(0)) > motor_supply_voltage) {
         u(0) = copysign(motor_supply_voltage, u(0));
       } 
