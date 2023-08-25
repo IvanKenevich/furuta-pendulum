@@ -1,1 +1,5 @@
+# matlab autosave
 *.asv
+
+# drawio cache
+.$*.bkp
