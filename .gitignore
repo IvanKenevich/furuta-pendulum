@@ -3,3 +3,10 @@
 
 # drawio cache
 .$*.bkp
+
+# stl export folder
+cad/stl
+
+# solidworks cache/temp files
+*~$*.SLDPRT
+*~$*.SLDASM
