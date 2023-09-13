@@ -10,7 +10,7 @@ L2 = 0.145; % m
 % distance from motor shaft to CG of arm1 (from CAD)
 l1 = 0.06151443; % m
 % distance from arm2 pivot to CG of arm2 (from CAD)
-l2 = 0.08201631; % m
+l2 = 0.09155541; % m
 
 %% Mass and volume for CAD density values
 % mass of arm1 itself
@@ -35,7 +35,7 @@ v1_shaft_coupler = 0.00000129; % m^3
 % total mass of arm1 at CG (from CAD)
 m1 = 57.34349e-3; % kg 
 % total mass of arm2 at CG (from CAD)
-m2 = 25.70501e-3; % kg
+m2 = 18.99165e-3; % kg
 
 %% Inertia tensor. Taken at the center of mass, aligned with main axes of the arm, negative tensor notation
 % inertia tensor for arm1
@@ -56,7 +56,7 @@ J2zz = 4.198e-05; % kg-m^2s
 b1 = 0.001535; 
 
 % dynamic friction coefficient of arm2 pivot
-b2 = 9e-5; % N-m-s
+b2 = 4e-5; % N-m-s
 
 %% Electrical
 %{
