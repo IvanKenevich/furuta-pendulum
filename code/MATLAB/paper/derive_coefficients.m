@@ -94,8 +94,12 @@ if simplify_inertia
     eq_motion = subs(eq_motion, {J2xx, J2yy, J2zz}, [0, I2, I2]);
 end
 
-eq_motion = subs(eq_motion, {th1, th2, diff(th1,t), diff(th2,t), diff(th1,t,2), diff(th2,t,2)}, ...
-                            [t1, t2, dt1, dt2, ddt1, ddt2]);
+eq_motion = subs(eq_motion, [diff(th1,t,2), diff(th2,t,2)], ...
+                            [ddt1, ddt2]);
+eq_motion = subs(eq_motion, [diff(th1,t), diff(th2,t)], ...
+                            [dt1, dt2]);
+eq_motion = subs(eq_motion, [th1, th2], ...
+                            [t1, t2]);
 
 c = children(eq_motion);
 first = c{1};

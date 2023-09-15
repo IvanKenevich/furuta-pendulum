@@ -55,7 +55,7 @@ hold off
 
 %% simulate nonlinear system with a linear controller
 tspan = [0, 5];
-y0 = [0 deg2rad(175) 0 0 0];
+y0 = [0 deg2rad(195) 0 0 0];
 control_pars.K = K;
 [t, y] = ode45(@(t, y) sys_odefun(t, y, f_ddt1, f_ddt2, control_law(t, y, control_pars), motor_pars), tspan, y0);
 % torque = (y - ref) * -K';
@@ -70,10 +70,11 @@ for row=1:height(y)
 end
 
 figure
-subplot(2,1,1)
+ax1 = subplot(2,1,1);
 plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), ylim([180 - 360, 180 + 360]), grid on
-subplot(2,1,2)
+ax2 = subplot(2,1,2);
 plot(t, y(:,3)*180/pi/360, t, y(:,4)*180/pi/360), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [rps]"), grid on
+linkaxes([ax1, ax2], 'x')
 
 %% print C code
 A_1 = sysD.A - sysD.B * Kd - L * sysD.C; % A_1 from Turcic observer handout

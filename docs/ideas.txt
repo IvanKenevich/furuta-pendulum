@@ -7,6 +7,7 @@ control algos
 - *** State space with integrator
 - Model predictive control
 - Non-linear controller (compare performance to linear)
+- ** Modulo arm1
 
 estimators
 ----------
@@ -25,7 +26,6 @@ mechanical
 ----------
 - Dual motor system (one with high torque and backlash, other with low torque no backlash, have benefits of both)
   (MIMO or logical switch to choose which motor to use and how much)
-- *** Better bearing for arm2 and arm2 is shaft
 
 sys id
 ------
