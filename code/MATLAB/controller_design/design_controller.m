@@ -6,7 +6,7 @@ sys = systems.full_measured;
 %% design gain matrix
 Ts = 1e-3;
 tr = 0.3;
-PMO = 20;
+PMO = 25;
 
 z=((-log(PMO/100))/(sqrt(log(PMO/100)^(2)+pi^(2))));
 wn=((2.917*(z^(2)-0.142852245458*z+0.342817963661))/(tr));
@@ -35,18 +35,17 @@ sys_cl_D.A = sysD.A - sysD.B * Kd;
 
 %% design observer
 addpath("../utils")
-[sys_obs, L] = Observer(sysD, Kd, p(1), 4, true, Ts);
+[sys_obs, L] = Observer(sysD, Kd, p(1), 50, true, Ts);
 
-t = linspace(0, 4, 1000);
-sys_cl = ss(sys_cl.A, sys_cl.B, eye(5), zeros(5,1));
-sys_obs = ss(sys_obs.A, sys_obs.B, [zeros(5,5), eye(5)], zeros(5,1));
-[y_c, ~] = initial(sys_cl, [1 1 1 1 1], t);
-[y_o, ~] = initial(sys_obs,[[1 1 1 1 1],[0 0 0 0 0]], t);
+t = 0:Ts:4;
+% sys_obs = ss(sys_obs.A, sys_obs.B, [zeros(5,5), eye(5)], zeros(5,1));
+[y_c, ~, x_c] = initial(sys_cl_D, [1 1 1 1 1], t);
+[y_o, ~, x_o] = initial(sys_obs,[[1 1 1 1 1],[0 0 0 0 0]], t);
 figure
 hold on
-plot(t,y_c)
+plot(t,x_c)
 set(gca,'ColorOrderIndex',1) % reset color indexing so that colors match for y_c and y_o
-plot(t,y_o,'--')
+plot(t,x_o(:,(height(sys_cl_D.A) + 1):end),'--')
 title('Free Response with and without Observer')
 subtitle('Different ICs')
 ylabel('Amplitude')
@@ -81,7 +80,7 @@ A_1 = sysD.A - sysD.B * Kd - L * sysD.C; % A_1 from Turcic observer handout
 BD = sysD.B;
 
 
-fprintf('#define TIMER_CYCLE_MICROS %g\n',Ts*1e6)
+fprintf('#define TIMER_CYCLE_MICROS %g\n \n\n\n\n\n',Ts*1e6)
 
 fprintf('Matrix<1,5> Kd = {%g, %g, %g, %g, %g};\n', Kd(1), Kd(2), Kd(3), Kd(4), Kd(5));
 fprintf(['Matrix<5,5> A_1 = {%g, %g, %g, %g, %g,\n' ...

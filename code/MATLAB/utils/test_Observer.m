@@ -11,7 +11,7 @@ K = place(sys_tf.A, sys_tf.B, p);
 sys_cl = sys_tf;
 sys_cl.A = sys_tf.A - sys_tf.B * K;
 
-sys_obs = Observer(sys_tf, K, p(2), 8);
+sys_obs = Observer(sys_tf, K, p(2), 8, false, 1);
 
 t = linspace(0, 12, 1000);
 [y_c, ~] = initial(sys_cl,ones(size(C)), t);

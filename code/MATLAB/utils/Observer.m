@@ -22,7 +22,11 @@ B_o = [B
 C_o = [zeros(height(C), height(A)), C];
 D_o = 0;
 
-sys_obs = ss(A_o,B_o,C_o,D_o);
+if is_digital
+    sys_obs = ss(A_o,B_o,C_o,D_o, Ts);
+else
+    sys_obs = ss(A_o,B_o,C_o,D_o);
+end
 
 end
 
