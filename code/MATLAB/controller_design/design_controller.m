@@ -53,12 +53,16 @@ xlabel('Time (s)')
 hold off
 
 %% simulate nonlinear system with a linear controller
-tspan = [0, 5];
-y0 = [0 deg2rad(195) 0 0 0];
+tvals = linspace(0,5,1e4);
+y0 = [0 deg2rad(180 + 15) 0 0 0];
 control_pars.K = K;
-[t, y] = ode45(@(t, y) sys_odefun(t, y, f_ddt1, f_ddt2, control_law(t, y, control_pars), motor_pars), tspan, y0);
+[t, y] = ode45(@(t, y) sys_odefun(t, y, f_ddt1, f_ddt2, control_law(t, y, control_pars), motor_pars), tvals, y0);
+
 % torque = (y - ref) * -K';
 
+% saturation actually implemented inside sys_odefun
+% this exists purely to adjust input voltage post-factum in case you want
+% to plot it
 for row=1:height(y)
     yrow = y(row, :);
     
@@ -70,10 +74,31 @@ end
 
 figure
 ax1 = subplot(2,1,1);
-plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi), title("Arm positions"), xlabel("Time [s]"), ylabel("Anle [deg]"), ylim([180 - 360, 180 + 360]), grid on
+plot(t, y(:,1)*180/pi, t, y(:,2)*180/pi), title("Arm positions"), xlabel("Time [s]"), ylabel("Angle [deg]"), ylim([180 - 360, 180 + 360]), grid on
 ax2 = subplot(2,1,2);
 plot(t, y(:,3)*180/pi/360, t, y(:,4)*180/pi/360), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [rps]"), grid on
 linkaxes([ax1, ax2], 'x')
+
+%% simulate linear system with a linear controller (and compare to nonlinear system)
+y0_lin = y0 - deg2rad([0 180 0 0 0]);
+[~, y_lin] = ode45(@(t, y) sys_odefun_lin(t, y, sys, control_law_lin(t, y, control_pars), motor_pars), tvals, y0_lin);
+y_lin = y_lin + deg2rad([0 180 0 0 0]);
+
+figure
+ax1 = subplot(2,1,1);
+hold on
+plot(t, y(:,1)*180/pi, 'm', t, y(:,2)*180/pi, 'c'), title("Arm positions"), xlabel("Time [s]"), ylabel("Angle [deg]"), ylim([180 - 360, 180 + 360]), grid on
+plot(t, y_lin(:,1)*180/pi, 'k--', t, y_lin(:,2)*180/pi, 'b--')
+legend(["Arm 1", "Arm 2", "Arm 1 linearized", "Arm 2 linearized"], location="best")
+hold off
+ax2 = subplot(2,1,2);
+hold on
+plot(t, y(:,3)*180/pi/360, 'm', t, y(:,4)*180/pi/360, 'c'), title("Arm velocities"), xlabel("Time [s]"), ylabel("Velocity [rps]"), grid on
+plot(t, y(:,3)*180/pi/360, 'k--', t, y(:,4)*180/pi/360, 'b--')
+legend(["Arm 1", "Arm 2", "Arm 1 linearized", "Arm 2 linearized"], location="best")
+hold off
+linkaxes([ax1, ax2], 'x')
+
 
 %% print C code
 A_1 = sysD.A - sysD.B * Kd - L * sysD.C; % A_1 from Turcic observer handout
@@ -121,8 +146,63 @@ fprintf(['Matrix<5,4> L = {%g, %g, %g, %g,\n' ...
 
 save('controller_parameters.mat', 'sys', 'K', 'sys_cl', 'Ts', 'sysD', 'Kd', 'sys_cl_D', 'L', 'sys_obs')
 
+%% classical controller design
+s = tf('s');
+tfs = tf(sys);
+arm2tf = tfs(2);
+% arm2tf.num = round(arm2tf.num{1}, 4);
+
+polezero = zpk(arm2tf);
+cancel_term = (s - polezero.P{1}(1)); % REMEMBER ME -- Add to MCU code
+polezero.P = polezero.P{1}(2:end);
+
+controller = pidtune(polezero, 'PIDF');
+sys_cl = feedback(polezero * controller, 1);
+sys_Vin = feedback(controller, polezero);
+
+% [y2 t] = impulse(sys_cl, 1);
+% vin = impulse(sys_Vin,t);
+% y1 = lsim(tfs(1) * cancel_term,vin,t);
+% y3 = lsim(tfs(3) * cancel_term,vin,t);
+% y4 = lsim(tfs(4) * cancel_term,vin,t);
+% 
+% figure
+% ax1 = subplot(5,1,1);
+% plot(t,y1)
+% ax2 = subplot(5,1,2);
+% plot(t,y2)
+% ax3 = subplot(5,1,3);
+% plot(t,y3)
+% ax4 = subplot(5,1,4);
+% plot(t,y4)
+% ax5 = subplot(5,1,5);
+% plot(t,vin)
+% linkaxes([ax1, ax2, ax3, ax4, ax5], 'x')
+% 
+% figure
+% t = linspace(0,0.6,1e3);
+% u = deg2rad(15)/0.257*deg2rad(15)*ones(size(t));
+% u(t>0.3) = 0;
+% lsim(sys_cl,u,t)
+% xlim([0.3, 0.6])
+% 
+% figure
+% lsim(sys_Vin,u,t)
+% xlim([0.3, 0.6])
+% 
+% figure
+% y2 = rad2deg(lsim(sys_cl,u,t));
+% plot(t(t>0.3)-0.3,y2(t>0.3))
+
+true_controller = cancel_term * controller;
+
 %% functions
 function [out] = control_law(t, y, pars)
     out = - pars.K * (y - [y(1) pi 0 0 0]');
+%     out = - pars.K * y;
+end
+
+function [out] = control_law_lin(t, y, pars)
+    out = - pars.K * (y - [y(1) 0 0 0 0]');
 %     out = - pars.K * y;
 end

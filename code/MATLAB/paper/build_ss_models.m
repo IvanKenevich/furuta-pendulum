@@ -65,13 +65,19 @@ C = eye(4,5); % realistic measurement matrix, we don't measure current
 % C = eye(2,5); % set to this if you wish to observe velocity too
 systems.full_measured = ss(A, B, C, D);
 
+% flip coefficients for the down linearization
+Adn = A; Adn(3,4) = -Adn(3,4); Adn(4,2) = -Adn(4,2); Adn(4,3) = -Adn(4,3); 
+Bdn = B; Bdn(4,1) = -Bdn(4,1);
+systems.full_measured_dn = ss(Adn, Bdn, C, D);
+
 motor_pars.Km = Km;
 motor_pars.Lm = Lm;
 motor_pars.Rm = Rm;
 motor_pars.Vmax = Vmax;
 
 sys_odefun = @sys_odefun;
+sys_odefun_lin = @sys_odefun_lin;
 
 % clearvars -except systems motor_pars
-clearvars -except f_ddt1 f_ddt2 systems motor_pars sys_odefun
+clearvars -except f_ddt1 f_ddt2 systems motor_pars sys_odefun sys_odefun_lin
 save("derived_systems.mat")
