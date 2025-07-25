@@ -1,5 +1,5 @@
 #include <Encoder.h>
-#include <BasicLinearAlgebra.h>
+#include <BasicLinearAlgebra.h> // **version 3.7 REQUIRED**
 using namespace BLA;
 #define LED_PIN 23
 
