@@ -10,3 +10,9 @@ cad/stl
 # solidworks cache/temp files
 *~$*.SLDPRT
 *~$*.SLDASM
+
+# kicad metadata files
+cad/pcb/fp-info-cache
+
+# kicad backups
+cad/pcb/**/*.zip

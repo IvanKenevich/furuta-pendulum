@@ -1689,6 +1689,160 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Teensy:Pololu_ACS724_Current_Sensor"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 0 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Pololu_ACS724_Current_Sensor_0_1"
+				(rectangle
+					(start -7.62 6.35)
+					(end 6.35 -6.35)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Pololu_ACS724_Current_Sensor_1_1"
+				(pin power_in line
+					(at -10.16 3.81 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -10.16 -3.81 0)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 8.89 3.81 180)
+					(length 2.54)
+					(name "IP-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 8.89 -3.81 180)
+					(length 2.54)
+					(name "IP+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Teensy:Teensy_3.6"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3241,10 +3395,6 @@
 		(uuid "ded89ead-96bd-47b3-be16-fb0d83cdea23")
 	)
 	(no_connect
-		(at 45.72 135.89)
-		(uuid "e1474e81-7218-4f4d-b9e0-27cc57dc4bec")
-	)
-	(no_connect
 		(at 45.72 125.73)
 		(uuid "e8d9e8e9-fa71-472f-9c5a-cb0fb74dc6ec")
 	)
@@ -3342,16 +3492,6 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 53.34) (xy 173.99 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2bb6f6c9-5e36-428f-bcd5-ebaed3bd6bae")
-	)
-	(wire
-		(pts
 			(xy 66.04 92.71) (xy 71.12 92.71)
 		)
 		(stroke
@@ -3372,7 +3512,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 58.42) (xy 173.99 58.42)
+			(xy 189.23 58.42) (xy 194.31 58.42)
 		)
 		(stroke
 			(width 0)
@@ -3392,7 +3532,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 60.96) (xy 173.99 60.96)
+			(xy 189.23 60.96) (xy 194.31 60.96)
 		)
 		(stroke
 			(width 0)
@@ -3402,7 +3542,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 66.04) (xy 173.99 66.04)
+			(xy 189.23 66.04) (xy 194.31 66.04)
 		)
 		(stroke
 			(width 0)
@@ -3429,6 +3569,16 @@
 			(type default)
 		)
 		(uuid "4e763133-14f4-4ecd-9b62-f495b845afdb")
+	)
+	(wire
+		(pts
+			(xy 41.91 135.89) (xy 45.72 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51094e2e-d88e-4d05-b50b-1b990eb6a763")
 	)
 	(wire
 		(pts
@@ -3492,7 +3642,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 63.5) (xy 173.99 63.5)
+			(xy 189.23 63.5) (xy 194.31 63.5)
 		)
 		(stroke
 			(width 0)
@@ -3502,13 +3652,13 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 55.88) (xy 173.99 55.88)
+			(xy 186.69 53.34) (xy 194.31 53.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6d4554dc-c0c4-4d26-a5a5-539dc7b7f272")
+		(uuid "676be941-14a6-4059-8b35-5303b304865f")
 	)
 	(wire
 		(pts
@@ -3672,6 +3822,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 53.34) (xy 179.07 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ab18c1e2-6344-49ab-ba4b-c32b4803dc8a")
+	)
+	(wire
+		(pts
 			(xy 119.38 60.96) (xy 123.19 60.96)
 		)
 		(stroke
@@ -3799,6 +3959,16 @@
 			(type default)
 		)
 		(uuid "e937152d-aa87-472c-ba59-acc7dec13158")
+	)
+	(wire
+		(pts
+			(xy 149.86 55.88) (xy 194.31 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4fa9fa6-2d43-48ba-92d0-fba05c8a87c2")
 	)
 	(wire
 		(pts
@@ -3942,6 +4112,28 @@
 			)
 		)
 	)
+	(global_label "ISENS"
+		(shape input)
+		(at 186.69 34.29 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "27d85d72-3076-4b75-a8c0-d02232949cdc")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 186.69 25.8015 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "ENC2_A"
 		(shape input)
 		(at 171.45 88.9 180)
@@ -4032,7 +4224,7 @@
 	)
 	(global_label "ENC1_A"
 		(shape input)
-		(at 168.91 63.5 180)
+		(at 189.23 63.5 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4042,7 +4234,29 @@
 		)
 		(uuid "4a8c0cd5-995e-43e5-afe2-acda2c286136")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 158.9096 63.5 0)
+			(at 179.2296 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ISENS"
+		(shape output)
+		(at 41.91 135.89 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "52398f33-cee5-4fa0-b59c-744156261b9a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 33.4215 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4318,7 +4532,7 @@
 	)
 	(global_label "ENC1_B"
 		(shape input)
-		(at 168.91 66.04 180)
+		(at 189.23 66.04 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4328,7 +4542,7 @@
 		)
 		(uuid "cc6f7c6a-6653-481d-8381-e42875f46498")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 158.7282 66.04 0)
+			(at 179.0482 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4392,7 +4606,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "031e62cd-7e10-4415-8eb3-6733dc7bc628")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR21"
 			(at 255.27 134.62 0)
 			(effects
 				(font
@@ -4442,7 +4656,72 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR021")
+					(reference "#PWR21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 179.07 34.29 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0de875cf-e22e-4a0a-ad8e-55609a7c5479")
+		(property "Reference" "#PWR23"
+			(at 179.07 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 179.07 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "41792cc8-ba3c-4838-9000-c67fb6fe567d")
+		)
+		(instances
+			(project "furuta-pendulum-pcb"
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "#PWR23")
 					(unit 1)
 				)
 			)
@@ -4530,7 +4809,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1a162904-03af-4cd8-b179-bd0c997bb91b")
-		(property "Reference" "#PWR011"
+		(property "Reference" "#PWR11"
 			(at 172.72 81.28 0)
 			(effects
 				(font
@@ -4581,7 +4860,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR011")
+					(reference "#PWR11")
 					(unit 1)
 				)
 			)
@@ -4597,7 +4876,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "22fa2ea7-340f-425a-a959-bb644b5aa5be")
-		(property "Reference" "#FLG01"
+		(property "Reference" "#FLG1"
 			(at 238.76 31.115 0)
 			(effects
 				(font
@@ -4647,7 +4926,7 @@
 		(instances
 			(project ""
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#FLG01")
+					(reference "#FLG1")
 					(unit 1)
 				)
 			)
@@ -4733,7 +5012,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "33ec2e52-b899-4288-9c0a-eef04a7047c9")
-		(property "Reference" "#PWR012"
+		(property "Reference" "#PWR12"
 			(at 162.56 83.82 0)
 			(effects
 				(font
@@ -4784,7 +5063,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR012")
+					(reference "#PWR12")
 					(unit 1)
 				)
 			)
@@ -4859,7 +5138,7 @@
 	)
 	(symbol
 		(lib_id "Teensy:Pololu Motor+Encoder")
-		(at 179.07 58.42 0)
+		(at 199.39 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4867,7 +5146,7 @@
 		(dnp no)
 		(uuid "3f8fc97c-2ccc-4a6d-b32d-588bb8697c9d")
 		(property "Reference" "J1"
-			(at 179.07 50.8 0)
+			(at 199.39 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4875,7 +5154,7 @@
 			)
 		)
 		(property "Value" "Pololu Motor+Encoder"
-			(at 184.15 69.342 0)
+			(at 204.47 69.342 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4883,7 +5162,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical"
-			(at 179.07 58.42 0)
+			(at 199.39 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4892,7 +5171,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 179.07 58.42 0)
+			(at 199.39 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4901,7 +5180,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 179.07 58.42 0)
+			(at 199.39 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4997,6 +5276,83 @@
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
 					(reference "#PWR4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Teensy:Pololu_ACS724_Current_Sensor")
+		(at 182.88 44.45 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "45e8946b-a045-4918-80c3-6690e4873268")
+		(property "Reference" "U3"
+			(at 184.15 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 182.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:Pololu ACS724 Current Sensor"
+			(at 182.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 182.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "3fca0f8b-5825-4800-8716-5ae3ecba0364")
+		)
+		(pin "2"
+			(uuid "85e3b895-7a03-4e2d-a6ff-b1b667abdff5")
+		)
+		(pin "4"
+			(uuid "6727c0b2-c7af-4e52-9d64-1f5661cae841")
+		)
+		(pin "1"
+			(uuid "9a9f4111-06ac-46b3-81b0-19833069e023")
+		)
+		(pin "5"
+			(uuid "d0cc3f96-1f2f-44c5-b257-f4a3bf8f5cdf")
+		)
+		(instances
+			(project ""
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -5116,7 +5472,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5af2c5dd-01e9-428f-bd3f-b4cfea9fa4bd")
-		(property "Reference" "#PWR09"
+		(property "Reference" "#PWR9"
 			(at 153.67 48.26 0)
 			(effects
 				(font
@@ -5167,7 +5523,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR09")
+					(reference "#PWR9")
 					(unit 1)
 				)
 			)
@@ -5325,7 +5681,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "651f5af0-d72e-4ab7-87cb-0f9b8444cc65")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR18"
 			(at 226.06 133.35 0)
 			(effects
 				(font
@@ -5376,7 +5732,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR018")
+					(reference "#PWR18")
 					(unit 1)
 				)
 			)
@@ -5384,7 +5740,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 168.91 60.96 90)
+		(at 189.23 60.96 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5392,8 +5748,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "70bdc71e-d01d-4155-ac56-61549ac00ff8")
-		(property "Reference" "#PWR014"
-			(at 172.72 60.96 0)
+		(property "Reference" "#PWR14"
+			(at 193.04 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5402,7 +5758,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 165.1 60.9599 90)
+			(at 185.42 60.9599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5411,7 +5767,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 168.91 60.96 0)
+			(at 189.23 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5420,7 +5776,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 60.96 0)
+			(at 189.23 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5429,7 +5785,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 168.91 60.96 0)
+			(at 189.23 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5443,7 +5799,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR014")
+					(reference "#PWR14")
 					(unit 1)
 				)
 			)
@@ -5451,7 +5807,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 168.91 58.42 270)
+		(at 189.23 58.42 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5459,8 +5815,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7dddd210-d496-4a81-85da-c6a754bc1ad8")
-		(property "Reference" "#PWR013"
-			(at 162.56 58.42 0)
+		(property "Reference" "#PWR13"
+			(at 182.88 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5469,7 +5825,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 165.1 58.4199 90)
+			(at 185.42 58.4199 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5478,7 +5834,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 168.91 58.42 0)
+			(at 189.23 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5487,7 +5843,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 58.42 0)
+			(at 189.23 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5496,7 +5852,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 168.91 58.42 0)
+			(at 189.23 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5510,7 +5866,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR013")
+					(reference "#PWR13")
 					(unit 1)
 				)
 			)
@@ -5609,7 +5965,7 @@
 			)
 		)
 		(property "Footprint" "Library:Teensy 3.6"
-			(at 55.88 97.79 0)
+			(at 56.134 143.764 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5798,7 +6154,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "97999d26-8ca1-4666-b2d2-71cc5c50c119")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR20"
 			(at 88.9 85.09 0)
 			(effects
 				(font
@@ -5849,7 +6205,72 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR020")
+					(reference "#PWR20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 182.88 34.29 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9b2b417b-b3e4-4a12-97dc-68fb1fceb9d4")
+		(property "Reference" "#PWR24"
+			(at 182.88 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 182.88 30.734 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 182.88 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 182.88 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c27921e7-6253-4969-b7bd-910fb952fcc4")
+		)
+		(instances
+			(project "furuta-pendulum-pcb"
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "#PWR24")
 					(unit 1)
 				)
 			)
@@ -5865,7 +6286,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a45a9863-bab8-4648-8393-9447abfcf58c")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR19"
 			(at 226.06 148.59 0)
 			(effects
 				(font
@@ -5916,7 +6337,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR019")
+					(reference "#PWR19")
 					(unit 1)
 				)
 			)
@@ -5941,7 +6362,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CT3151SP-0 (BLK)"
+		(property "Value" "Screw_Terminal_01x01"
 			(at 251.46 46.9899 0)
 			(effects
 				(font
@@ -6205,7 +6626,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c7cc7da4-6d43-4e8e-a27d-1efb7214f09f")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR16"
 			(at 77.47 113.03 0)
 			(effects
 				(font
@@ -6256,7 +6677,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR016")
+					(reference "#PWR16")
 					(unit 1)
 				)
 			)
@@ -6272,7 +6693,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c8543e3b-cb56-4537-bbe6-efb63c89c26f")
-		(property "Reference" "#PWR022"
+		(property "Reference" "#PWR22"
 			(at 255.27 148.59 0)
 			(effects
 				(font
@@ -6322,7 +6743,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR022")
+					(reference "#PWR22")
 					(unit 1)
 				)
 			)
@@ -6356,7 +6777,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 184.15 85.09 0)
 			(effects
 				(font
@@ -6480,7 +6901,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ceed51a9-82f7-44d6-ae43-8750aa9461d2")
-		(property "Reference" "#PWR07"
+		(property "Reference" "#PWR7"
 			(at 238.76 30.48 0)
 			(effects
 				(font
@@ -6530,7 +6951,7 @@
 		(instances
 			(project ""
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR07")
+					(reference "#PWR7")
 					(unit 1)
 				)
 			)
@@ -6622,7 +7043,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CT3151SP-2 (RED)"
+		(property "Value" "Screw_Terminal_01x01"
 			(at 251.46 29.2099 0)
 			(effects
 				(font
@@ -6680,7 +7101,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e335e73d-3f03-4b39-affe-89ebf5180d76")
-		(property "Reference" "#FLG02"
+		(property "Reference" "#FLG2"
 			(at 238.76 42.545 0)
 			(effects
 				(font
@@ -6730,7 +7151,7 @@
 		(instances
 			(project ""
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#FLG02")
+					(reference "#FLG2")
 					(unit 1)
 				)
 			)
@@ -6746,7 +7167,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e377a3a3-bc98-43ee-be0e-6b56bd999e0f")
-		(property "Reference" "#PWR08"
+		(property "Reference" "#PWR8"
 			(at 238.76 53.34 0)
 			(effects
 				(font
@@ -6796,7 +7217,7 @@
 		(instances
 			(project ""
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR08")
+					(reference "#PWR8")
 					(unit 1)
 				)
 			)
@@ -6812,7 +7233,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e80a42c9-8c0b-4782-be2c-5e7daf333fa0")
-		(property "Reference" "#PWR010"
+		(property "Reference" "#PWR10"
 			(at 163.83 50.8 0)
 			(effects
 				(font
@@ -6863,7 +7284,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR010")
+					(reference "#PWR10")
 					(unit 1)
 				)
 			)
@@ -6879,7 +7300,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f16b4f99-0cd9-4be5-8682-97122ff0a0b8")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR17"
 			(at 224.79 118.11 0)
 			(effects
 				(font
@@ -6930,7 +7351,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR017")
+					(reference "#PWR17")
 					(unit 1)
 				)
 			)
@@ -7016,7 +7437,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fca0b66e-dab7-4ab8-9f61-cdcdeae4de4c")
-		(property "Reference" "#PWR015"
+		(property "Reference" "#PWR15"
 			(at 35.56 77.47 0)
 			(effects
 				(font
@@ -7067,7 +7488,7 @@
 		(instances
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
-					(reference "#PWR015")
+					(reference "#PWR15")
 					(unit 1)
 				)
 			)
