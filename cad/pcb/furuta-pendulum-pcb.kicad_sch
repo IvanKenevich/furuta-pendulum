@@ -471,6 +471,89 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Regulator_Linear:LM78L05_TO92"
 			(pin_names
 				(offset 0.254)
@@ -3323,6 +3406,10 @@
 		(uuid "6f57de12-d8cc-4dd4-bec2-d2a1fe52b42a")
 	)
 	(no_connect
+		(at 45.72 85.09)
+		(uuid "724b16e3-c6c6-44c7-b829-fc5f40b83f12")
+	)
+	(no_connect
 		(at 66.04 115.57)
 		(uuid "7808aa71-bcf3-41f9-bfbd-ee5aeb8f6a67")
 	)
@@ -3369,10 +3456,6 @@
 	(no_connect
 		(at 66.04 135.89)
 		(uuid "c7e30fd2-61ba-42a2-b134-6c04f2cc5932")
-	)
-	(no_connect
-		(at 66.04 87.63)
-		(uuid "caa4d25e-9abb-4e06-9ca5-340b185a8485")
 	)
 	(no_connect
 		(at 214.63 123.19)
@@ -3482,7 +3565,7 @@
 	)
 	(wire
 		(pts
-			(xy 78.74 85.09) (xy 82.55 85.09)
+			(xy 80.01 82.55) (xy 83.82 82.55)
 		)
 		(stroke
 			(width 0)
@@ -3652,16 +3735,6 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 53.34) (xy 194.31 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "676be941-14a6-4059-8b35-5303b304865f")
-	)
-	(wire
-		(pts
 			(xy 238.76 44.45) (xy 238.76 45.72)
 		)
 		(stroke
@@ -3682,7 +3755,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 85.09) (xy 71.12 85.09)
+			(xy 69.85 82.55) (xy 72.39 82.55)
 		)
 		(stroke
 			(width 0)
@@ -3702,6 +3775,16 @@
 	)
 	(wire
 		(pts
+			(xy 69.85 85.09) (xy 66.04 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8495dbc9-33d5-4125-b57b-a3ac4c2fe42b")
+	)
+	(wire
+		(pts
 			(xy 120.65 40.64) (xy 123.19 40.64)
 		)
 		(stroke
@@ -3709,16 +3792,6 @@
 			(type default)
 		)
 		(uuid "8588a128-8003-4d4a-9f25-25c37d330d4f")
-	)
-	(wire
-		(pts
-			(xy 41.91 85.09) (xy 45.72 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "87362e75-a5e0-4aeb-8107-61b494958e8e")
 	)
 	(wire
 		(pts
@@ -3822,16 +3895,6 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 53.34) (xy 179.07 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ab18c1e2-6344-49ab-ba4b-c32b4803dc8a")
-	)
-	(wire
-		(pts
 			(xy 119.38 60.96) (xy 123.19 60.96)
 		)
 		(stroke
@@ -3912,6 +3975,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 53.34) (xy 179.07 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf218099-5a82-43d4-822e-116379214474")
+	)
+	(wire
+		(pts
 			(xy 171.45 88.9) (xy 176.53 88.9)
 		)
 		(stroke
@@ -3952,6 +4025,16 @@
 	)
 	(wire
 		(pts
+			(xy 66.04 87.63) (xy 71.12 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7179d18-f02d-4b00-bf37-c17c34b198a6")
+	)
+	(wire
+		(pts
 			(xy 238.76 29.21) (xy 238.76 27.94)
 		)
 		(stroke
@@ -3969,6 +4052,26 @@
 			(type default)
 		)
 		(uuid "f4fa9fa6-2d43-48ba-92d0-fba05c8a87c2")
+	)
+	(wire
+		(pts
+			(xy 186.69 53.34) (xy 194.31 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7365c09-d269-4c15-a2fe-98d2609e4bfa")
+	)
+	(wire
+		(pts
+			(xy 69.85 82.55) (xy 69.85 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9912ee3-9ac3-4ff2-a776-02388d51adde")
 	)
 	(wire
 		(pts
@@ -4114,7 +4217,7 @@
 	)
 	(global_label "ISENS"
 		(shape input)
-		(at 186.69 34.29 90)
+		(at 179.07 34.29 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4124,7 +4227,7 @@
 		)
 		(uuid "27d85d72-3076-4b75-a8c0-d02232949cdc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 186.69 25.8015 90)
+			(at 179.07 25.8015 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4334,22 +4437,22 @@
 	)
 	(global_label "OCM"
 		(shape output)
-		(at 41.91 85.09 180)
+		(at 71.12 87.63 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "8ecb09ae-13eb-432d-9917-dac64dc5f98e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 34.8729 85.09 0)
+			(at 78.1571 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -4664,7 +4767,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 179.07 34.29 180)
+		(at 186.69 34.29 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4672,7 +4775,7 @@
 		(dnp no)
 		(uuid "0de875cf-e22e-4a0a-ad8e-55609a7c5479")
 		(property "Reference" "#PWR23"
-			(at 179.07 27.94 0)
+			(at 186.69 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4681,7 +4784,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 179.07 30.48 0)
+			(at 186.69 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4689,7 +4792,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 179.07 34.29 0)
+			(at 186.69 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4698,7 +4801,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 34.29 0)
+			(at 186.69 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4707,7 +4810,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 179.07 34.29 0)
+			(at 186.69 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5283,8 +5386,7 @@
 	)
 	(symbol
 		(lib_id "Teensy:Pololu_ACS724_Current_Sensor")
-		(at 182.88 44.45 90)
-		(mirror x)
+		(at 182.88 44.45 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5292,7 +5394,7 @@
 		(dnp no)
 		(uuid "45e8946b-a045-4918-80c3-6690e4873268")
 		(property "Reference" "U3"
-			(at 184.15 44.45 0)
+			(at 181.61 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5672,6 +5774,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 162.56 154.94 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "65095531-22e2-4237-b4fe-7fdcb50bd213")
+		(property "Reference" "H3"
+			(at 165.1 153.6699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 165.1 156.2099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 162.56 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 162.56 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 162.56 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "furuta-pendulum-pcb"
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 219.71 133.35 90)
 		(unit 1)
@@ -5800,6 +5966,70 @@
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
 					(reference "#PWR14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 162.56 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "737eeba5-25dc-4d28-b49d-38f3e943ee29")
+		(property "Reference" "H2"
+			(at 165.1 140.9699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 165.1 143.5099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 162.56 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 162.56 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 162.56 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "furuta-pendulum-pcb"
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "H2")
 					(unit 1)
 				)
 			)
@@ -6146,7 +6376,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 82.55 85.09 90)
+		(at 83.82 82.55 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6155,7 +6385,7 @@
 		(fields_autoplaced yes)
 		(uuid "97999d26-8ca1-4666-b2d2-71cc5c50c119")
 		(property "Reference" "#PWR20"
-			(at 88.9 85.09 0)
+			(at 90.17 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6164,7 +6394,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 86.36 85.0899 90)
+			(at 87.63 82.5499 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6173,7 +6403,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 85.09 0)
+			(at 83.82 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6182,7 +6412,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 85.09 0)
+			(at 83.82 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6191,7 +6421,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 82.55 85.09 0)
+			(at 83.82 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6271,6 +6501,70 @@
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
 					(reference "#PWR24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 144.78 154.94 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9dcb37ef-4862-4fb9-a15b-10be80eeac1d")
+		(property "Reference" "H4"
+			(at 147.32 153.6699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 147.32 156.2099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 144.78 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 144.78 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 144.78 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "furuta-pendulum-pcb"
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "H4")
 					(unit 1)
 				)
 			)
@@ -6412,7 +6706,7 @@
 	)
 	(symbol
 		(lib_id "LED:LD271")
-		(at 73.66 85.09 180)
+		(at 74.93 82.55 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6421,7 +6715,7 @@
 		(fields_autoplaced yes)
 		(uuid "b7f320ff-c948-4bd7-b1e9-cb6df386f16a")
 		(property "Reference" "D1"
-			(at 74.803 78.74 0)
+			(at 76.073 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6429,7 +6723,7 @@
 			)
 		)
 		(property "Value" "LD271"
-			(at 74.803 81.28 0)
+			(at 76.073 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6437,7 +6731,7 @@
 			)
 		)
 		(property "Footprint" "LED_THT:LED_D5.0mm_IRGrey"
-			(at 73.66 89.535 0)
+			(at 74.93 86.995 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6446,7 +6740,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.alliedelec.com/m/d/40788c34903a719969df15f1fbea1056.pdf"
-			(at 74.93 85.09 0)
+			(at 76.2 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6455,7 +6749,7 @@
 			)
 		)
 		(property "Description" "940nm IR-LED, 5mm"
-			(at 73.66 85.09 0)
+			(at 74.93 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7019,6 +7313,70 @@
 			(project "furuta-pendulum-pcb"
 				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
 					(reference "#PWR3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 144.78 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d37fb4af-dc92-4897-961b-780c76ac1423")
+		(property "Reference" "H1"
+			(at 147.32 140.9699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 147.32 143.5099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+			(at 144.78 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 144.78 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 144.78 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/8f4afd28-51ab-4259-b703-4df7acdb90df"
+					(reference "H1")
 					(unit 1)
 				)
 			)
