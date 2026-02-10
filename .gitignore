@@ -16,3 +16,6 @@ cad/pcb/fp-info-cache
 
 # kicad backups
 cad/pcb/**/*.zip
+
+# kicad lock files
+cad/pcb/**/~*.lck
